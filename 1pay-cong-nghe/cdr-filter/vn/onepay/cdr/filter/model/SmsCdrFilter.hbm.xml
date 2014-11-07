@@ -1,0 +1,75 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated May 8, 2014 3:26:47 PM by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="vn.onepay.cdr.filter.model.SmsCdrFilter" table="sms_cdr_filter" catalog="analytics">
+        <id name="id" type="java.lang.Integer">
+            <column name="id" />
+            <generator class="identity" />
+        </id>
+        <property name="transactionRef" type="string">
+            <column name="transaction_ref" length="32" not-null="true" unique="true">
+                <comment>D&#195;&#185;ng &#196;&#145;&#225;&#187;&#131; soi v&#195;&#160;o CDR xem chi ti&#225;&#186;&#191;t giao d&#225;&#187;&#139;ch</comment>
+            </column>
+        </property>
+        <property name="msisdn" type="string">
+            <column name="msisdn" length="15" not-null="true">
+            </column>
+        </property>
+        <property name="merchant" type="string">
+            <column name="merchant" length="64" not-null="true">
+                <comment>Nh&#195;&#160; ph&#195;&#162;n ph&#225;&#187;&#145;i n&#195;&#160;o exp : hahm</comment>
+            </column>
+        </property>
+        <property name="serviceNumber" type="string">
+            <column name="service_number" length="64" not-null="true">
+            </column>
+        </property>
+        <property name="commandCode" type="string">
+            <column name="command_code" length="64" not-null="true">
+            </column>
+        </property>
+        <property name="contentService" type="string">
+            <column name="content_service" length="64" not-null="true">
+                <comment>D&#225;&#187;&#139;ch v&#225;&#187;&#165; n&#225;&#187;&#153;i dung s&#225;&#187;&#145; n&#195;&#160;o d&#195;&#185;ng thanh to&#195;&#161;n</comment>
+            </column>
+        </property>
+        <property name="chargingService" type="string">
+            <column name="charging_service" length="64" not-null="true">
+                <comment>Lo&#225;&#186;&#161;i thanh to&#195;&#161;n : SMS, Card, Wap Charging</comment>
+            </column>
+        </property>
+        <property name="paymentProvider" type="string">
+            <column name="payment_provider" length="64" not-null="true">
+                <comment>Provider n&#195;&#160;o cung c&#225;&#186;&#165;p d&#225;&#187;&#139;ch v&#225;&#187;&#165; thanh to&#195;&#161;n : ng&#195;&#162;n
+                l&#198;&#176;&#225;&#187;&#163;ng, b&#225;&#186;&#163;o kim, abc,...</comment>
+            </column>
+        </property>
+        <property name="telco" type="string">
+            <column name="telco" length="32" not-null="true">
+                <comment>Nh mng no VMS, VNP, VTM, VNM</comment>
+            </column>
+        </property>
+        <property name="amount" type="big_decimal">
+            <column name="amount" precision="13" not-null="true">
+                <comment>S&#195;&#161;&#194;&#187;&#226;&#128;&#152; ti&#195;&#161;&#194;&#187;&#194;&#129;n giao d&#195;&#161;&#194;&#187;&#226;&#128;&#185;ch
+                v&#195;&#161;&#194;&#187;&#226;&#128;&#186;i nh&#195;&#131;&#194;&#160; m&#195;&#161;&#194;&#186;&#194;&#161;ng. v&#195;&#131;&#194;&#173;
+                d&#195;&#161;&#194;&#187;&#194;&#165; 87xx = 15000</comment>
+            </column>
+        </property>
+        <property name="chargingTime" type="timestamp">
+            <column name="charging_time" length="19" not-null="true">
+                <comment>Th&#225;&#187;&#157;i gian th&#225;&#187;&#177;c hi&#225;&#187;&#135;n giao d&#225;&#187;&#139;ch</comment>
+            </column>
+        </property>
+        <property name="createdTime" type="timestamp">
+            <column name="created_time" length="19" not-null="true">
+                <comment>Th&#225;&#187;&#157;i gian t&#225;&#186;&#161;o b&#225;&#186;&#163;n ghi</comment>
+            </column>
+        </property>
+        <property name="updatedTime" type="timestamp">
+            <column name="updated_time" length="19" not-null="true" />
+        </property>
+    </class>
+</hibernate-mapping>

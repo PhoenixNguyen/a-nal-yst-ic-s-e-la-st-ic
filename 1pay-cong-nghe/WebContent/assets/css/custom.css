@@ -1,0 +1,263 @@
+/* here you can put your own css to customize and override the theme */
+@charset "utf-8";
+/* CSS Document */
+
+/* <Font> */
+@font-face {
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 300;
+  src: local('Open Sans Light'), local('OpenSans-Light'), url(../plugins/font-google/opensans-v8-300.woff) format('woff');
+}
+@font-face {
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Open Sans'), local('OpenSans'), url(../plugins/font-google/opensans-v8-400.woff) format('woff');
+}
+@font-face {
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 600;
+  src: local('Open Sans Semibold'), local('OpenSans-Semibold'), url(../plugins/font-google/opensans-v8-600.woff) format('woff');
+}
+@font-face {
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 700;
+  src: local('Open Sans Bold'), local('OpenSans-Bold'), url(../plugins/font-google/opensans-v8-700.woff) format('woff');
+}
+/* </Font> */
+/* <Footer> */
+.pre-footer {background: #313030;color: #b0b0b0;}
+.pre-footer h2 a {font-size: 21px !important;}
+.pre-footer a { color: #c2c1c1; text-decoration: none;}
+.pre-footer li {padding: 2px 0;}
+/* #footer ul li:first-child a {font-weight: bold;} */
+.pre-footer .secure_geotrust {color: #fff;padding-left: 5px;display: block;background: url("../../images/geotrust2.png") no-repeat 0px 20px;width: 140px;height: 90px;margin-top: -24px;}
+
+.footer {background: #272626; padding: 15px 0 !important; color: #fff;}
+.footer a {color: #fff;text-decoration: underline;}
+.footer .padding-top-10, .footer ul.social-footer a {opacity: 0.5;padding-top: 5px;}
+.footer ul.social-footer a:hover {color:#67bd3c;opacity:1;}
+@media (max-width: 991px) {
+	.footer > .container > .row { margin-left: auto !important;margin-right: auto !important;}
+}
+/* </Footer> */
+
+.backstretch {
+  -webkit-filter: blur(5px);
+  -moz-filter: blur(5px);
+  -o-filter: blur(5px);
+  -ms-filter: blur(5px);
+  filter: blur(5px);
+  opacity:0.3;
+}
+
+.pagelinks a:first-child {
+	margin-left: 0;
+}
+.pagelinks a {
+	position: relative;
+	float: left;
+	padding: 6px 12px;
+	line-height: 1.42857143;
+	text-decoration: none;
+	color: #428bca;
+	background-color: #fff;
+	border: 1px solid #ddd;
+	margin-left: -1px;
+}
+.pagelinks a:hover {
+	color: #2a6496;
+	background-color: #eee;
+	border-color: #ddd;
+}
+.pagelinks a.current-page {
+	font-weight: bold;
+	background-color: #eee;
+}
+
+.fa-globe, .fa-mobile-phone {
+	font-size: large !important;
+	margin-left: -2px;
+	margin-right: -2px;
+}
+
+/***
+Colors
+blue:  #4b8df8
+light blue: #bfd5fa
+red: #e02222
+yellow: #ffb848
+green: #35aa47
+purple: #852b99
+dark: #555555;
+light grey: #fafafa;
+***/
+.blue-text 			{color:#4b8df8;}
+.light-blue-text 	{color:#bfd5fa;}
+.red-text 			{color:#e02222;}
+.orange-text		{color:#E84D1C}
+.yellow-text 		{color:#ffb848;}
+.green-text 		{color:#35aa47;}
+.purple-text 		{color:#852b99;}
+.dark-text 			{color:#555555;}
+.light-text 		{color:#fafafa;}
+
+.blue-bg 			{background-color:#4b8df8;}
+.light-blue-bg 		{background-color:#bfd5fa;}
+.red-bg 			{background-color:#e02222;}
+.orange-bg			{background-color:#E84D1C}
+.yellow-bg 			{background-color:#ffb848;}
+.green-bg 			{background-color:#35aa47;}
+.purple-bg 			{background-color:#852b99;}
+.dark-bg 			{background-color:#555555;}
+.light-bg 			{background-color:#fafafa;}
+
+.margin-bottom-20 { margin-bottom: 20px !important; }
+.margin-bottom-30 { margin-bottom: 30px !important; }
+.margin-bottom-40 { margin-bottom: 40px !important; }
+
+
+/* Progress Step */
+.track-progress {
+	margin: 0;
+	margin-bottom: 30px;
+	padding: 0;
+	overflow: hidden;
+}
+
+.track-progress li {
+	list-style-type: none;
+	display: inline-block;
+	position: relative;
+	margin: 0;
+	padding: 0;
+	text-align: center;
+	line-height: 60px;
+	height: 60px;
+	background-color: #ccc;
+	width: 33%;
+	overflow: hidden;
+}
+
+.track-progress li>span {
+	display: block;
+	color: #666;
+	font-weight: bold;
+	text-transform: uppercase;
+	padding-left: 10px;
+}
+
+@media (max-width: 640px) {
+	.track-progress li>span {font-size: 10px !important;}
+}
+@media (max-width: 480px) {
+	.track-progress li {height:30px !important;line-height: 30px !important;}
+	.track-progress li>span {font-size: 8px !important;padding-left: 15px !important;}
+	.track-progress li>span:after, .track-progress li>span:before {border-width:15px !important;} 
+	.track-progress li>span:after {border-width: 20px !important;}
+	.track-progress li:first-child i, .track-progress li:last-child i {border-width: 15px !important;}
+	.track-progress li:last-child i {right: -15px !important;}
+}
+@media (max-width: 320px) {
+	.track-progress li>span {font-size: 6px !important;}
+}
+
+.track-progress li.done>span 				{color: #fff;background-color: #39b54a;}
+.track-progress li.done.blue-bg>span 		{color: #fff;background-color: #4b8df8;}
+.track-progress li.done.light-blue-bg>span 	{color: #fff;background-color: #bfd5fa;}
+.track-progress li.done.red-bg>span 		{color: #fff;background-color: #e02222;}
+.track-progress li.done.orange-bg>span 		{color: #fff;background-color: #E84D1C;}
+.track-progress li.done.yellow-bg>span 		{color: #fff;background-color: #ffb848;}
+.track-progress li.done.green-bg>span 		{color: #fff;background-color: #35aa47;}
+.track-progress li.done.purple-bg>span 		{color: #fff;background-color: #852b99;}
+.track-progress li.done.dark-bg>span 		{color: #fff;background-color: #555555;}
+.track-progress li.done.light-bg>span 		{color: #555555;background-color: #fafafa;}
+
+.track-progress li>span:after, .track-progress li>span:before {
+	content: "";
+	display: block;
+	width: 0px;
+	height: 0px;
+	position: absolute;
+	top: 0;
+	left: 0;
+	border: solid transparent;
+	border-left-color: #ccc;
+	border-width: 30px;
+}
+
+.track-progress li>span:after {
+	top: -5px;
+	z-index: 1;
+	border-left-color: white;
+	border-width: 35px;
+}
+
+.track-progress li>span:before {
+	z-index: 2;
+}
+
+.track-progress li.done+li>span:before 					{border-left-color: #39b54a;}
+.track-progress li.done.blue-bg+li>span:before 			{border-left-color: #4b8df8;}
+.track-progress li.done.light-blue-bg+li>span:before 	{border-left-color: #bfd5fa;}
+.track-progress li.done.red-bg+li>span:before 			{border-left-color: #e02222;}
+.track-progress li.done.orange-bg+li>span:before 		{border-left-color: #E84D1C;}
+.track-progress li.done.yellow-bg+li>span:before 		{border-left-color: #ffb848;}
+.track-progress li.done.green-bg+li>span:before 		{border-left-color: #35aa47;}
+.track-progress li.done.purple-bg+li>span:before 		{border-left-color: #852b99;}
+.track-progress li.done.dark-bg+li>span:before 			{border-left-color: #555555;}
+.track-progress li.done.light-bg+li>span:before 		{border-left-color: #fafafa;}
+
+.track-progress li:first-child>span:after, .track-progress li:first-child>span:before {
+	display: none;
+}
+
+.track-progress li:first-child i, .track-progress li:last-child i {
+	display: block;
+	height: 0;
+	width: 0;
+	position: absolute;
+	top: 0;
+	left: 0;
+	border: solid transparent;
+	border-left-color: white;
+	border-width: 30px;
+}
+
+.track-progress li:last-child i {
+	left: auto;
+	right: -30px;
+	border-left-color: transparent;
+	border-top-color: white;
+	border-bottom-color: white;
+}
+
+.track-progress li>span>a {
+	color: inherit !important;
+	text-decoration: none !important;;
+	display: block !important;;
+}
+/* /Progress Step */
+
+#topcontrol {margin-bottom: 50px;}
+
+.btn-download {
+	border-radius: 10px !important;
+	min-width: 255px;
+	margin-top: 10px !important;
+}
+.btn-download i {
+	font-size: 25px;
+}
+.btn-download2 {
+	border-radius: 10px !important;
+	min-width: 100px;
+	margin-top: 10px !important;
+	margin-left: 10px !important;
+}
+.btn-download2 i {
+	font-size: 25px;
+}

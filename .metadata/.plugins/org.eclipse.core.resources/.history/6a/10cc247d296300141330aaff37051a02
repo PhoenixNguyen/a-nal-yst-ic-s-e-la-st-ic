@@ -1,0 +1,8 @@
+package vn.onepay.common;
+
+public class SharedConstants {
+	// --------------
+	public final static int SUCCESS_STATUS = 1;
+	public final static int ERROR_STATUS = 0;
+	// --------------
+}

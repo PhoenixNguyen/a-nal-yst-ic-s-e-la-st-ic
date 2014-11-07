@@ -1,0 +1,5 @@
+package vn.onepay.search.api;
+
+public class CardChargingErrorConfigAjax {
+
+}

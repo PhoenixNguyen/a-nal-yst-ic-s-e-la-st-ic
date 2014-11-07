@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+	   http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+	   http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd">
+	
+	<bean name="/console/abstract-product-verify.wss" class="vn.onepay.merchant.product.controllers.AbstractProductVerify" parent="/console/abstract.wss" abstract="true" >
+	   <property name="productVerifyService" ref="productVerifyService"/>
+  	</bean>
+  
+  	<bean name="/console/product-must-verify-manager.wss" class="vn.onepay.merchant.product.controllers.ProductMustVerifyController" parent="/console/abstract-product-verify.wss">
+ 	  <property name="limit" value="10" />
+ 	  <property name="webView" value="product_verify_list"/>
+	</bean>
+	
+ 	<bean name="/console/product-verify-manager.wss" class="vn.onepay.merchant.product.controllers.ProductVerifyManagerController" parent="/console/abstract-product-verify.wss">
+ 	  <property name="limit" value="20" />
+ 	  <property name="webView" value="product_verify_manager"/>
+	</bean>
+	
+	<bean name="/console/product-verify-manager-ajax.wss" class="vn.onepay.merchant.product.api.ProductVerifyManagerAjax" parent="/console/abstract-product-verify.wss">
+  </bean>
+  
+</beans>

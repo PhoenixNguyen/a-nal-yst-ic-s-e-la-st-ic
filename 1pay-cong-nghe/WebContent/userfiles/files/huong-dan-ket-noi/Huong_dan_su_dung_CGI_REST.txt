@@ -1,0 +1,52 @@
+*****************************************************************************************
+*	Hướng dẫn tạo webservice C++ 							*
+*****************************************************************************************
+
+1) Open CGI trong Apache Tomcat 
+  - Modify TOMCAT_HOME>\conf\web.xml , uncomment cgi servlet and mapping
+
+	<servlet>
+		<servlet-name>cgi</servlet-name>
+		<servlet-class>org.apache.catalina.servlets.CGIServlet</servlet-class>
+		<init-param>
+			<param-name>debug</param-name>
+			<param-value>0</param-value>
+		</init-param>
+		<init-param>
+			<param-name>cgiPathPrefix</param-name>
+			<param-value>WEB-INF/cgi</param-value>
+		</init-param>
+		<init-param>
+			<param-name>passShellEnvironment</param-name>
+			<param-value>true</param-value>
+		</init-param>
+		<load-on-startup>5</load-on-startup>
+	</servlet>
+	 
+	<servlet-mapping>
+		<servlet-name>cgi</servlet-name>
+		<url-pattern>/cgi-bin/*</url-pattern>
+	</servlet-mapping>
+
+
+2) Modify <TOMCAT_HOME>\conf\context.xml add property
+	<Context privileged="true">
+	...
+	</Context>
+
+
+3) Tạo thư mục cgi trong <TOMCAT_HOME>\webapps\ROOT\WEB-INF\
+
+4) Install lig cgicc : download tại ftp://ftp.gnu.org/gnu/cgicc/cgicc-3.2.14.tar.gz
+
+   $tar xzf cgicc-X.X.X.tar.gz 
+   $cd cgicc-X.X.X/ 
+   $./configure --prefix=/usr 
+   $make
+   $make install
+
+
+5) Tạo file cgi : g++ -o smsCharging.cgi smsCharging.cpp -lcgicc -lssl -lcrypto
+   Copy vào thư mục cgi trong Tomcat
+
+6) Run : http://localhost/cgi-bin/smsCharging.cgi    

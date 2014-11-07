@@ -1,0 +1,38 @@
+1414467616760	Delete element
+1414468250577	Copy compilation unit
+1414494497177	Rename resource 'mo-menu.jsp'
+1414494506227	Rename resource 'mo-chart.jsp'
+1414494513163	Rename resource 'mo-chart.js.jsp'
+1414494523151	Rename resource 'mo-chart.js.gg.jsp'
+1414494533145	Rename resource 'mo-chart-menu.jsp'
+1414494583889	Delete element
+1414494618444	Rename source folder 'elastic-mo'
+1414494651161	Rename type 'MOAnalyticController'
+1414494672119	Rename type 'WarningMOFixRateService'
+1414494685133	Rename type 'ESMO'
+1414494695123	Rename type 'FilteringMO'
+1414494702120	Rename type 'MO'
+1414494712670	Rename package 'vn.onepay.mo.model'
+1414494719142	Rename source folder 'mo'
+1414494736124	Rename type 'MOService'
+1414494745126	Rename type 'MyMORepository'
+1414496249129	Delete element
+1414548473557	Copy package
+1414548487713	Delete element
+1414548583187	Move package
+1414548592135	Move package
+1414548610125	Move package
+1414548667125	Move compilation unit
+1414548683123	Move compilation unit
+1414548690055	Delete element
+1414549540524	Delete elements
+1414549550404	Delete elements
+1414549561307	Delete element
+1414552210544	Copy file
+1414552274005	Delete element
+1414552530660	Copy file
+1414637280303	Rename type 'ESSMS'
+1414746903494	Rename type 'FilteringSMS'
+1414752041210	Rename type 'ESSmsCdrFilter'
+1414752053165	Rename type 'ESSmsCdr'
+1414761140144	Rename type 'ESSmsCdrFilter'

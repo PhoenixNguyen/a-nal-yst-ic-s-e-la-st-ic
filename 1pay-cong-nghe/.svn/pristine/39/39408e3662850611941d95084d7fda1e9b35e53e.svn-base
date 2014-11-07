@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+	   http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+	   http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd">
+	
+	<!-- Load in application properties reference -->
+    <context:annotation-config />
+    <!-- <context:component-scan base-package="vn.onepay.merchant.product, vn.onepay.sdk.item" /> -->
+    
+	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver"/>
+           
+	<bean name="/console/abstract.wss" class="vn.onepay.merchant.product.controllers.AbstractConsoleManagerController" abstract="true" >
+		<property name="accountDAO" ref="accountDAO" />
+		<property name="merchantProductDAO" ref="merchantProductDAO" />
+		<property name="gamificationService" ref="gamificationService" />
+	</bean>
+	
+	<bean name="/console/abstractForm.wss" class="vn.onepay.merchant.product.controllers.AbstractConsoleManagerFormController" abstract="true" >
+		<property name="accountDAO" ref="accountDAO" />
+		<property name="merchantProductDAO" ref="merchantProductDAO" />
+		<property name="gamificationService" ref="gamificationService" />
+	</bean>
+
+	<!-- Merchant Product Manager -->
+	<bean name="/console/manager.wss" class="vn.onepay.merchant.product.controllers.ProductManagerController" parent ="/console/abstract.wss">
+		<property name="limit" value="10" />
+		<property name="webView" value="product_manager"/>
+	</bean>
+	
+	<bean name="/console/rule.wss" class="vn.onepay.merchant.product.controllers.RuleConfirmController" parent ="/console/abstract.wss">
+		<property name="webView" value="product_rule_confirm"/>
+	</bean>
+	
+	<bean name="/console/create.wss" class="vn.onepay.merchant.product.controllers.ProductRegisterController" parent ="/console/abstractForm.wss">
+		<property name="counterDAO" ref="counterDAO" />
+        <property name="sessionForm" value="true" />
+        <property name="commandName" value="product" />
+        <property name="commandClass" value="vn.onepay.merchant.product.model.MerchantProduct" />
+        <property name="validator">
+            <bean class="vn.onepay.merchant.product.validator.ProductValidator">
+            </bean>
+        </property>
+        <property name="formView" value="product_register" />
+        <property name="successView" value="/console/manager.wss" />
+    </bean>
+    
+    <bean name="/console/details.wss" class="vn.onepay.merchant.product.controllers.ProductDetailsController" parent ="/console/abstract.wss">
+		<property name="webView" value="product_details"/>
+	</bean>
+
+	<!-- ************************************** Import ********************************************************* -->
+	<import resource="1pay-apps-merchant-provider-allocation-servlet.xml"/>
+	<import resource="1pay-apps-verify-servlet.xml"/>
+	
+	<!-- ******************************************************************************************************* -->	
+    <bean id="viewResolver"
+          class="org.springframework.web.servlet.view.InternalResourceViewResolver"
+          p:prefix="/layouts/web-apps/"
+          p:suffix=".jsp" />
+</beans>

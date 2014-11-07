@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:mongo="http://www.springframework.org/schema/data/mongo"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+			http://www.springframework.org/schema/data/mongo http://www.springframework.org/schema/data/mongo/spring-mongo-1.2.xsd
+			http://www.springframework.org/schema/data/repository http://www.springframework.org/schema/data/repository/spring-repository.xsd
+			http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd
+			http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.2.xsd">
+
+	<mongo:mongo host="127.0.0.1">
+		<mongo:options connections-per-host="200"
+             threads-allowed-to-block-for-connection-multiplier="1500"
+		     connect-timeout="30000" 
+		     max-wait-time="1500" 
+		     auto-connect-retry="true" 
+		     socket-keep-alive="true" 
+		     socket-timeout="60000" 
+		     slave-ok="true" 
+		     write-number="1" 
+		     write-timeout="0" 
+		     write-fsync="true"
+		/>   
+	</mongo:mongo>
+	<!-- 
+	<mongo:mongo replica-set="192.168.2.10:27017, 192.168.2.11:27017">
+		<mongo:options connections-per-host="200"
+             threads-allowed-to-block-for-connection-multiplier="1500"
+		     connect-timeout="30000" 
+		     max-wait-time="1500" 
+		     auto-connect-retry="true" 
+		     socket-keep-alive="true" 
+		     socket-timeout="60000" 
+		     slave-ok="true" 
+		     write-number="1" 
+		     write-timeout="0" 
+		     write-fsync="true"
+		/>   
+	</mongo:mongo>
+	 -->
+	 
+	<mongo:db-factory dbname="onepay" mongo-ref="mongo" />
+
+	<!-- MongoTemplate for connecting and quering the documents in the database -->
+	<bean id="mongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate">
+		<constructor-arg ref="mongo" />
+		<constructor-arg name="databaseName" value="onepay" />
+	</bean>
+	<!-- Use this post processor to translate any MongoExceptions thrown in @Repository annotated classes -->
+	<bean class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor" />
+
+	<!-- -->
+	<bean id="merchantProductDAO" class="vn.onepay.merchant.product.dao.mongodb.MerchantProductDAOMongo">
+		<property name="mongoTemplate" ref="mongoTemplate" />
+		<property name="mongoCollection" value="MerchantProducts" />
+	</bean>
+	
+	<bean id="sdkItemDAO" class="vn.onepay.sdk.item.dao.mongodb.SdkItemDAOMongo">
+		<property name="mongoTemplate" ref="mongoTemplate" />
+		<property name="mongoCollection" value="SdkItems" />
+	</bean>
+	
+	<bean id="accountDAO" class="vn.onepay.account.dao.mongodb.AccountDAOMongo">
+		<property name="mongoTemplate" ref="mongoTemplate" />
+	</bean>
+	
+	<!-- <bean id="accountPropertyDAO" class="vn.onepay.account.property.dao.mongodb.AccountPropertyDAOMongo">
+		<property name="mongoTemplate" ref="mongoTemplate" />
+	</bean> -->
+	
+	<bean id="gamificationDAO"
+		class="vn.onepay.gamification.model.dao.mongodb.GamificationDAOMongo">
+		<property name="mongoTemplate" ref="mongoTemplate" />
+		<property name="mongoCollection" value="Gamification" />
+	</bean>
+	
+	<bean id="counterDAO" class="vn.onepay.counter.dao.mongodb.CounterDAOMongo">
+		<property name="mongoTemplate" ref="mongoTemplate"/>
+	</bean>
+	
+	<!-- ************************************** Import ********************************************************* -->
+	<import resource="product-dao-context.xml"/>
+	<import resource="classpath:1pay-configs/merchant-profile-context.xml"/>
+	
+</beans>

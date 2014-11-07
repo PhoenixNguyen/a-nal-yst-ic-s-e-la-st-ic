@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+    http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+    http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+    http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd">
+
+	<context:annotation-config />
+
+	<!-- Load in application properties reference -->
+	<bean id="viewResolver"
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver"
+		p:prefix="/layouts/dev/" p:suffix=".jsp" />
+	<!-- /Load in application properties reference -->
+
+	<!-- APIS -->
+	<bean name="/dev/dev-api.dev" class="vn.onepay.dev.api.DevApiAjax"
+		parent="/dev/dev-abstract.dev" />
+	<bean name="/dev/sdk-api.dev" class="vn.onepay.dev.api.SdkApiAjax"
+		parent="/dev/dev-abstract.dev" />
+	<!-- /APIS -->
+	
+	<bean name="/dev/dev-abstract.dev" class="vn.onepay.dev.controller.DevAbstractController"
+		abstract="true" />
+	<bean name="/dev/login.dev" class="vn.onepay.dev.controller.DevLoginController">
+        <property name="sessionForm" value="true" />
+        <property name="commandName" value="login" />
+        <property name="commandClass" value="vn.onepay.dev.model.LoginForm" />
+        <property name="validator">
+            <bean class="vn.onepay.dev.validator.LoginValidator">
+            </bean>
+        </property>
+        <property name="formView" value="login" />
+    </bean>
+	<bean name="/logout.html" class="vn.onepay.dev.controller.DevLogoutController" parent ="/dev/dev-abstract.dev"/>
+	<bean name="/dev/home.dev" class="vn.onepay.dev.controller.DevHomeController"
+		parent="/dev/dev-abstract.dev">
+		<property name="webView" value="home" />
+	</bean>
+	<bean name="/dev/support.dev" class="vn.onepay.dev.controller.DevSupportController"
+		parent="/dev/dev-abstract.dev">
+		<property name="webView" value="support" />
+	</bean>
+	<bean name="/dev/sdk.dev" class="vn.onepay.dev.controller.DevSdkController"
+		parent="/dev/dev-abstract.dev">
+		<property name="webView" value="sdk" />
+	</bean>
+	<bean name="/dev/file-manager.dev" class="vn.onepay.dev.controller.CkfinderController"
+		parent="/dev/dev-abstract.dev">
+		<property name="webView" value="ckfinder" />
+	</bean>
+</beans>

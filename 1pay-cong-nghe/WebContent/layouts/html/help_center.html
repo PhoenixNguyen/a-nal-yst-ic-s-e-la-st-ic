@@ -1,0 +1,414 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+<meta name="format-detection" content="telephone=no" />
+<meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=no;" />
+<title>1Pay.vn - Cổng kết nối thanh toán hàng đầu Việt Nam | Cong ket noi thanh toan hang dau Viet Nam</title>
+<link rel="icon" href="favicon.ico" type="image/x-icon">
+<link href="css/1pay_style.css" rel="stylesheet" type="text/css" />
+<script src="js/jquery.js" type="text/javascript" async></script>
+<script src="js/slides.js" type="text/javascript"></script>
+<script type="text/javascript" src="js/core_menu.js"></script>
+</script> 
+<!-- Add-On Core Code (Remove when not using any add-on's) -->
+
+<style type="text/css">.qmfv{visibility:visible !important;}.qmfh{visibility:hidden !important;}</style><script type="text/JavaScript">var qmad = new Object();qmad.bvis="";qmad.bhide="";</script>
+
+
+	<!-- Add-On Settings -->
+	<script type="text/JavaScript">
+
+		/*******  Menu 0 Add-On Settings *******/
+		var a = qmad.qm0 = new Object();
+
+		// IE Over Select Fix Add On
+		a.overselects_active = true;
+
+	</script>
+   <script type="text/javascript">
+var Constants = { DO_NOT_ADD_A_TRAILING_COMMA: true};
+        function global_report_exception (e, f, l, tb, force) {
+            if (!window.reported_exception || force) {
+                var stack_str = "";
+                try {
+                    if (!tb) {
+                        var stack = get_stack_rep();
+                        stack.pop(); // remove global_report_exception
+                        stack.pop(); // remove onerror handler
+                        stack_str = stack.join("\n");
+                    }
+                } catch (e) { }
+                var log = function() {
+                    var parameters = {
+                        'e': e,
+                        'f': f || window.location.href,
+                        'l': l,
+                        'loc': window.location.href,
+                        'ref': Constants.referrer,
+                        'tb': tb || stack_str,
+                        'trace': Trace && Trace.get()
+                    };
+                    new Ajax.DBRequest("/jse", {
+                        parameters: parameters,
+                        noAutonotify: true,
+                        no_watch: true
+                    });
+                }
+                if (typeof(Ajax) == 'undefined') {
+                    document.observe('script:loaded', log);
+                } else {
+                    log();
+                }
+                window.reported_exception = e;
+           }
+        }
+
+        // this constant gets set to true at the bottom of dropbox.js
+        window.LoadedJsSuccessfully = false;
+        window.onerror = function (e, f, l) {
+            global_report_exception(e, f, l);
+        };
+
+        var old_onload = window.onload;
+        window.onload = function() {
+            if (!window.LoadedJsSuccessfully) {
+                var url = encodeURIComponent(window.location.href)
+                new Image().src = '/jse?e=failed+to+load+script&loc=' + url + '&f=' + url;
+            }
+            old_onload && old_onload();
+        }
+</script>
+
+<script defer src="js/jquery_mini.js" type="text/javascript" async></script>
+
+<link href="css/home_slider.css" rel="stylesheet" type="text/css" />
+
+</head>
+
+<body>
+<!-- 1PAY WEB -->
+<div id=""wrapper>
+	<!-- Web Top -->
+	<div id="w_top">
+    	<div class="layout_1000">
+        	<!-- Header -->
+            <div id="w_header">
+            	<a href="#" class="logo_1pay"></a>
+                
+                <div id="nav">
+                <ul id="qm0" class="qmmc">
+                <li><a class="qmparent nav_menu" href="index.html">Trang chủ</a></li>
+                
+                <li><a class="qmparent nav_menu" href="dichvu.html">Dịch vụ</a>
+                   <ul>
+                        <li><a href="dichvu_chitiet.html" >SMS Charging</a>
+                        
+                        </li>
+                        <li><a href="dichvu_chitiet.html" >Card Charging</a></li>
+                        <li><a href="dichvu_chitiet.html" >Wap Charging</a></li>
+                         <li><a href="dichvu_chitiet.html" >Direct Charging</a>
+                          <li><a href="dichvu_chitiet.html" >Sub Charging</a>
+               
+                    </ul> 
+                </li>
+                <li><a class="qmparent nav_menu" href="nhaphattrien.html">Nhà phát triển</a>
+                <ul>
+                       
+                        
+                      
+                        <li><a href="#" >Tài liệu</a></li>
+                        <li><a href="#" >APIs</a></li>
+                        <li><a href="#" >Hướng dẫn</a></li>
+                        
+                    </ul>         
+                </li>
+                
+                
+                <li><a class="qmparent nav_menu" href="#">Cộng đồng</a>
+                    <ul>
+                    	<li><a href="#" >Diễn đàn </a></li>
+	                    <li><a href="#" >Facebook</a></li>
+                        <li><a href="#" >Twitter</a></li>
+                        <li><a href="#" >Google+</a></li>
+                        
+                    </ul>
+                </li>
+                
+                <li><a class="qmparent nav_menu" href="tintuc.html">Tin tức</a>
+                <ul>
+                    	<li><a href="#" >Tin hoạt động</a></li>
+	                    <li><a href="#" >Sự kiện</a></li>
+                        <li><a href="#" >Bản tin ngành nội dung số</a></li>
+                      
+                       
+                    </ul>
+                </li>
+                
+                <li><a class="qmparent nav_menu_slc" href="hotro.html">Hỗ trợ</a>
+                <ul>
+                    	<li><a href="help_center.html" >Help center</a></li>
+	                    <li><a href="#" >Quyền lợi & chính sách</a></li>
+                        <li><a href="#" >Bản quyền</a></li>
+                         <li><a href="lien_he.html" >Liên hệ</a></li>
+                        
+                      
+                       
+                    </ul>
+                </li>
+                
+              
+              
+                    
+                <li class="qmclear">&nbsp;</li></ul>
+                </div>
+                
+                <div id="account-header">
+      <ul class="nav">
+        <li>
+          <div id="top-login-wrapper" class=""><a href="#" id="login-hover-link"><img src="images/door-open-in.png" border="0" align="absmiddle" hspace="5"/> Đăng nhập</a>
+            <div id="login-hover-cont" class="offscreen chat-bubble">
+              <form action="#" novalidate method="post">
+                <input type="hidden" name="t" value="">
+                <div class="sick-input small" id="anonymous_element_1">
+                  <label for="login_email_elm">Tài khoản</label>
+                  <input type="email" id="login_email_elm" name="login_email" tabindex="1">
+                </div>
+                <div class="sick-input small" id="anonymous_element_2">
+                  <label for="login_password_elm">Mật khẩu</label>
+                  <input type="password" id="login_password_elm" name="login_password" tabindex="2">
+                </div>
+                <p style="margin-bottom: 0.5em; line-height: 28px;">
+                  <input style="vertical-align: middle; margin-left: 0;" name="remember_me" class="no-border" type="checkbox" id="remember_me" tabindex="3">
+                  <label style="vertical-align: middle; cursor: pointer; " for="remember_me">Lưu thông tin đăng nhập</label>
+                  <input tabindex="4" type="button" class="btn_loginsmall" value="Đăng nhập" id="toplogin-submit">
+                </p>
+                <p class="create-account"><a href="registration.html" id="login-create-an-account">Tạo tài khoản</a></p>
+              </form>
+              <div class="chat-bubble-arrow-border"></div>
+              <div class="chat-bubble-arrow"></div>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </div>
+                <div class="clear"></div>
+            </div>
+        	<!-- / Header -->
+            
+            <!-- Body -->
+            <div id="w_body">
+            	<div class="row_sub">
+                	<div class="left_cat">
+                  	<ul class="sub_cat">
+                    	<li><a href="#" class="help_active">Hỗ trợ</a>
+                        <ul>
+                        	 <li><a href="help_center.html" class="slc_link">Help Center</a></li>
+                        <li><a href="#">Quyền lợi chính sách</a></li>
+                        <li><a href="#">Bản quyền</a></li>
+                        <li><a href="lien_he.html">Liên hệ</a></li>
+                        </ul>
+                        </li>
+                       
+                       
+                    </ul>
+                    
+                    <ul class="sub_cat">
+                        <li><a href="#" class="other_link">Blog hỗ trợ</a></li>
+                        <li><a href="#" class="other_link">Diễn đàn</a></li>
+                       
+                        
+                    </ul>
+              </div>
+              <div class="right_content">
+                <div class="subpage_content">
+                  <h1>Help Center</h1>
+                  <h3>Tìm kiếm trợ giúp</h3>
+                  <table>
+            <tbody><tr>
+                <td>
+                  <div class="sick-input" id="anonymous_element_3">
+                    <input type="text" id="search-input" name="search_string" value="Nhập từ khóa cần tìm" tabindex="5" class="txt_search">
+                  </div>
+                </td>
+                <td>
+                    <input type="submit" id="submit-button" value="Tìm kiếm" class="btn_send">
+                </td>
+            </tr>
+        </tbody></table>
+        
+        		<div>
+                	<div class="help_col">
+                    <h3>Top câu hỏi</h3>
+                    	<ol id="faq">
+            <li><a href="#">How do I link to a file or folder?</a></li>
+            <li><a href="#">How do I add or upload files to my Dropbox?</a></li>
+            <li><a href="#">How do I sync files between computers?</a></li>
+            <li><a href="#">How secure is Dropbox?</a></li>
+            <li><a href="#">Can I share files with non-Dropbox users?</a></li>
+            <li><a href="#">How much space does my Dropbox have?</a></li>
+            <li><a href="#">How do I share a file or folder with others?</a></li>
+            <li><a href="#">Is there any way to get more space?</a></li>
+            <li><a href="#">How do I recover old versions of files? </a></li>
+            <li><a href="#">Can I access Dropbox on my mobile device?</a></li>
+    </ol>
+                    </div>
+                    <div class="help_col">
+                    	<h3>Thể loại</h3>
+                        <ul>
+                        	<li><img src="images/User.png" border="0" align="left"/><a href="#">Thông tin tài khoản</a></li>
+                            <li><img src="images/money.png" border="0" align="left"/><a href="#">Thanh toán & hóa đơn</a></li>
+                            <li><img src="images/video.png" border="0" align="left"/><a href="#">Video hướng dẫn</a></li>
+                            <li><img src="images/security-high.png" border="0" align="left"/><a href="#">Bảo mật & chính sách</a></li>
+                        </ul>
+                    </div>
+                    <div class="clear"></div>
+                    <h3>Nguồn khác</h3>
+                    <div>
+                    	<div class="help_col">
+                        	<table width="100%">
+                            	<tr>
+                                	<td width="64"><a href="#"><img src="images/forum_64.png" border="0"/></a></td>
+                                    <td style="padding-left: 20px; vertical-align: top; padding-right: 20px;">
+                                    	<a href="#" class="link_othersource">Diễn đàn</a>
+                                        <div class="othersource_des">Converse with the Dropbox team and other Dropbox users</div>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div class="help_col">
+                        	<table width="100%">
+                            	<tr>
+                                	<td width="64"><a href="#"><img src="images/26-Mail.png" border="0"/></a></td>
+                                    <td style="padding-left: 20px; vertical-align: top; padding-right: 20px;">
+                                    	<a href="#" class="link_othersource">Liên hệ</a>
+                                        <div class="othersource_des">Converse with the Dropbox team and other Dropbox users</div>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                </div>
+              
+              
+                </div>
+                
+                
+            </div>
+            
+            
+            <!-- / Body -->
+        </div>
+    </div>
+	<!-- / Web Top -->
+    
+	<!-- Web Foot -->    
+    <div id="w_foot">
+    	<!-- Foot Menu -->
+    	<div id="foot_menu">
+        	<div class="layout_1000">
+            	<div class="foot_col">
+                	<ul>
+                    	<li><a href="#" class="footmenu_head">Dịch vụ</a></li>
+                        <li><a href="#" class="foot_link">SMS Charging</a></li>
+                        <li><a href="#" class="foot_link">Card Charging</a></li>
+                        <li><a href="#" class="foot_link">Wap Charging</a></li>
+                        <li><a href="#" class="foot_link">Direct Charging</a></li>
+                        <li><a href="#" class="foot_link">Sub Charging</a></li>
+                        
+                    </ul>
+                </div>
+                <div class="foot_col">
+                	<ul>
+                    	<li><a href="#" class="footmenu_head">Nhà phát triển</a></li>
+                        <li><a href="#" class="foot_link">Tài liệu</a></li>
+                        <li><a href="#" class="foot_link">API</a></li>
+                        <li><a href="#" class="foot_link">Hướng dẫn</a></li>
+                      
+                    </ul>
+                </div>
+                <div class="foot_col">
+                	<ul>
+                    	<li><a href="#" class="footmenu_head">Giới thiệu</a></li>
+                        <li><a href="#" class="foot_link">Diễn đàn</a></li>
+                        <li><a href="#" class="foot_link">Facebook</a></li>
+                        <li><a href="#" class="foot_link">Twitter</a></li>
+                        <li><a href="#" class="foot_link">Google+</a></li>
+                      
+                    </ul>
+                </div>
+                <div class="foot_col">
+                	<ul>
+                    	<li><a href="#" class="footmenu_head">Giới thiệu</a></li>
+                        <li><a href="#" class="foot_link">1Pay là gì?</a></li>
+                        <li><a href="#" class="foot_link">Đội ngũ 1Pay </a></li>
+                        <li><a href="#" class="foot_link">Tin tức</a></li>
+                        <li><a href="#" class="foot_link">Tuyển dụng</a></li>
+                    </ul>
+                </div>
+                <div class="foot_col">
+                	<ul>
+                    	<li><a href="#" class="footmenu_head">Hỗ trợ</a></li>
+                        <li><a href="#" class="foot_link">Help Center</a></li>
+                        <li><a href="#" class="foot_link">Quyền lợi & chính sách</a></li>
+                        <li><a href="#" class="foot_link">Bản quyền</a></li>
+                        
+                        <li><a href="#" class="foot_link">Liên hệ</a></li>
+                    </ul>
+                </div>
+                <div class="foot_mod">
+                			<div id="page-full-footer">
+    
+    <div id="locale-container" class="ui-button"><span id="locale-link"  class="locale_link"><a>English</a></span>
+      <div id="locale-menu" class="sub-nav chat-bubble-bottom locale-list">
+        <ul>
+          <li><a data-locale="de" class="locale-option">Việt Nam</a></li>
+          <li><a data-locale="en" class="locale-option">English</a></li>
+          
+          <li><a data-locale="ja" class="locale-option">日本語</a></li>
+          <li><a data-locale="ko" class="locale-option">한국어</a></li>
+        </ul>
+        <div class="chat-bubble-arrow-border"></div>
+        <div class="chat-bubble-arrow"></div>
+      </div>
+    </div>
+    <div class="clear"></div>
+  </div>
+                    
+      
+                  <div class="clear"></div>
+                  <a  class="secure_geotrust">Bảo mật bởi</a>
+              </div>
+                <div class="clear"></div>
+            </div>
+        </div>
+    	<!-- / Foot Menu -->        
+        <div id="foot_info"><div class="info_holder">© 2013 by 1Pay.vn, All rights reserved</div></div>
+    </div>
+	<!-- / Web Foot -->
+</div>
+<!-- / 1PAY WEB -->
+<script type="text/javascript">
+/*<![CDATA[*/
+jQuery(function($) {
+
+$(function(){
+	$('#hot_productslides').slides({
+		preload: true,
+		preloadImage: 'images/loading.gif',
+		play: 5000,
+		pause: 2500,
+		hoverPause: true
+	});
+});
+
+});
+/*]]>*/
+</script>
+<!-- Create Menu Settings: (Menu ID, Is Vertical, Show Timer, Hide Timer, On Click ('all' or 'lev2'), Right to Left, Horizontal Subs, Flush Left, Flush Top) -->
+<script type="text/javascript">qm_create(0,false,0,250,false,false,false,false,false);</script>
+</body>
+</html>

@@ -1,0 +1,7 @@
+package vn.onepay.search.api;
+
+public class CardChargingErrorConfigAjax {
+  private enum Action {
+    ADD_EDIT, DELETE
+  }
+}

@@ -1,0 +1,183 @@
+.sms_link, .sms_link:HOVER {
+	background: url(../images/sub_invi.png) no-repeat scroll left center, url("../images/btngreen_bg.png") repeat-x scroll center top;
+    color: #FFFFFF;
+    display: block;
+    float: right;
+    font-weight: bold;
+    height: 20px;
+    line-height: 20px;
+    padding-left: 20px;
+    padding-right: 5px;
+
+    border: 1px solid #39B54A;
+    border-radius: 10px;
+    text-shadow: 0 1px #20942B;
+}
+
+.width250{
+	width: 250px;
+}
+
+.width60{
+	width: 60px;
+}
+
+.width20{
+	width: 20px;
+}
+
+.width40_percent{
+	width: 40%;
+}
+
+.width23_percent{
+	width: 23%;
+}
+.width13_percent{
+	width: 13%;
+}
+.width7_percent{
+	width: 7%;
+}
+.width8_percent{
+	width: 8%;
+}
+.width5_percent{
+	width: 5%;
+}
+.width12_percent{
+	width: 12%;
+}
+
+.width10_percent{
+	width: 10%;
+}
+
+.width11_percent{
+	width: 11%;
+}
+#category_management_popup{
+	display: none;
+	background: #fff;
+	width: 600px;
+	height: auto;
+	padding: 20px;
+	background: none repeat scroll 0 0 #fff;
+	border-radius: 5px;
+	box-shadow: 0 0 4px rgba(0, 0, 0, 0.698);
+	font-size: 14px;
+}
+
+#record_management_popup{
+	display: none;
+	background: #fff;
+	width: 800px;
+	height: auto;
+	padding: 20px;
+	background: none repeat scroll 0 0 #fff;
+	border-radius: 5px;
+	box-shadow: 0 0 4px rgba(0, 0, 0, 0.698);
+	font-size: 14px;
+}
+
+.add_category_management{
+	background: url(../images/sub_invi.png) no-repeat scroll left center, url("../images/btngreen_bg.png") repeat-x scroll center top;
+	color: #FFFFFF;
+	display: block;
+	float: right;
+	font-weight: bold;
+	height: 20px;
+	line-height: 20px;
+	padding-left: 20px;
+	padding-right: 5px;
+	border: 1px solid #39B54A;
+	border-radius: 10px;
+	text-shadow: 0 1px #20942B;
+}
+
+.add_record{
+	background: url("../images/add.png") no-repeat scroll left center, url("../images/btngreen_bg.png") repeat-x scroll center top;
+	color: #FFFFFF;
+	display: block;
+	float: right;
+	font-weight: bold;
+	height: 20px;
+	line-height: 20px;
+	padding-left: 20px;
+	padding-right: 5px;
+	border: 1px solid #39B54A;
+	border-radius: 10px;
+	text-shadow: 0 1px #20942B;
+}
+
+.back{
+	background: /* url("../images/add.png") no-repeat scroll left center, */ url("../images/btngreen_bg.png") repeat-x scroll center top;
+	color: #FFFFFF;
+	display: block;
+	float: right;
+	font-weight: bold;
+	height: 20px;
+	line-height: 20px;
+	padding-left: 20px;
+	padding-right: 5px;
+	border: 1px solid #39B54A;
+	border-radius: 10px;
+	text-shadow: 0 1px #20942B;
+}
+
+.add_category_management:HOVER, .add_record:HOVER, .back:HOVER {
+	color: #FFFFFF;
+	text-shadow: 0 1px #20942B;
+	margin-right: 0;padding-right: 5px;
+}
+
+#display_tree table{
+	padding: 10px;
+}
+#display_tree2 table tr{
+	border-bottom: 1px solid #CCCCCC;
+}
+
+.input_text{
+	padding: 5px; width: 80%; margin-left: 5%;
+	text-align: left;
+}
+
+.input_number{
+	padding: 5px; width: 80%; margin-left: 5%;
+	text-align: right;
+	
+}
+
+.input_time{
+	padding: 5px; width: 80%; margin-left: 5%;
+	text-align: center;
+}
+.select_style{
+	padding: 5px; margin-left: 5%; width: 40%;
+}
+
+.time_picker{
+	padding: 5px; margin-left: 0%; width: 39.5%;
+}
+
+.title_color{
+	/* color: #2C8F39; */
+}
+
+.requesting_color{
+	color: red;
+}
+
+.title_category{
+	/* color: #2C8F39; */
+	font-size: 14px;
+}
+
+.radio_style{
+	padding: 5px; 
+	margin-left: 5%;
+	margin-top: 5px;
+}
+
+

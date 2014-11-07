@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?><project-modules id="moduleCoreId" project-version="1.5.0">
+    <wb-module deploy-name="1pay-cong-nghe">
+        <wb-resource deploy-path="/" source-path="/WebContent" tag="defaultRootSource"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/account-permission-manager"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/money-flow"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/read-email"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/cash-flow"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/ckfinder"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/excel-service"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/check-connection"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/dev"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/cdr-filter"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/merchant-products-verify"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/template-manager"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/vietokenizer"/>
+        <property name="java-output-path" value="/1pay-cong-nghe/build/classes"/>
+        <property name="context-root" value="/"/>
+    </wb-module>
+</project-modules>

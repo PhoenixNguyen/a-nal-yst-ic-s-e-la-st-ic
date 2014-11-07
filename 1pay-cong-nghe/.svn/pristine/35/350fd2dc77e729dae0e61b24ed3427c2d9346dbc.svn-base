@@ -1,0 +1,496 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<taglib version="2.0" xmlns="http://java.sun.com/xml/ns/j2ee"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee web-jsptaglibrary_2_0.xsd">
+ <description>onepay functions library</description>
+ <display-name>onepay functions library</display-name>
+ <tlib-version>1.0</tlib-version>
+ <short-name>onepay</short-name>
+ <uri>http://1pay.vn/jsp/jstl/functions</uri>
+ <function>
+  <description>
+      onepay Date format
+    </description>
+  <name>date</name>
+  <function-class>vn.onepay.web.tld.MyCustomTagLib</function-class>
+  <function-signature>String date(java.lang.String)</function-signature>
+  <example>&lt;c:if test="${onepay:date(timeInMiliseconds)}"&gt;</example>
+ </function>
+ 
+ <function>
+    <description>
+      onepay substr Title
+    </description>
+    <name>substringTitle</name>
+    <function-class>vn.onepay.web.tld.MyCustomTagLib</function-class>
+    <function-signature>String substringTitle(java.lang.String, int)</function-signature>
+    <example>
+      &lt;c:if test="${onepay:substringTitle(title, maxLength)}"&gt;
+    </example>
+  </function>
+ 
+ <function>
+  <description>
+      1Pay get operator name by code
+  </description>
+  <name>getOperatorName</name>
+  <function-class>vn.onepay.web.tld.MyCustomTagLib</function-class>
+  <function-signature>String getOperatorName(java.lang.String)</function-signature>
+ </function>
+ 
+ <function>
+    <description>
+      1Pay urlEncode Content
+    </description>
+    <name>urlEncode</name>
+    <function-class>vn.onepay.web.tld.MyCustomTagLib</function-class>
+    <function-signature>String urlEncode(java.lang.String)</function-signature>
+    <example>
+      &lt;c:if test="${onepay:urlEncode(inputStr)}"&gt;
+    </example>
+  </function>
+  
+  <function>
+    <description>
+      1Pay urlDecode Content
+    </description>
+    <name>urlDecode</name>
+    <function-class>vn.onepay.web.tld.MyCustomTagLib</function-class>
+    <function-signature>String urlDecode(java.lang.String)</function-signature>
+    <example>
+      &lt;c:if test="${onepay:urlDecode(inputStr)}"&gt;
+    </example>
+  </function>
+  
+  <function>
+    <description>
+      1Pay getContentName
+    </description>
+    <name>getContentName</name>
+    <function-class>vn.onepay.web.tld.MyCustomTagLib</function-class>
+    <function-signature>String getContentName(java.lang.String, javax.servlet.http.HttpServletRequest)</function-signature>
+    <example>
+      &lt;c:if test="${onepay:getContentName(appId, request)}"&gt;
+    </example>
+  </function>
+  
+  <function>
+    <description>
+      1Pay setParam
+    </description>
+    <name>setParam</name>
+    <function-class>vn.onepay.web.tld.MyCustomTagLib</function-class>
+    <function-signature>String setParam(java.lang.String, java.lang.String, java.lang.String)</function-signature>
+    <example>
+      &lt;c:if test="${onepay:setParam(url, paramName, paramValue)}"&gt;
+    </example>
+  </function>
+  
+  <function>
+    <description>
+      1Pay setParam
+    </description>
+    <name>getParam</name>
+    <function-class>vn.onepay.web.tld.MyCustomTagLib</function-class>
+    <function-signature>String getParam(java.lang.String, java.lang.String, java.lang.String)</function-signature>
+    <example>
+      &lt;c:if test="${onepay:getParam(url, paramName, paramValue)}"&gt;
+    </example>
+  </function>
+  
+  <function>
+    <description>
+      1Pay removeParam
+    </description>
+    <name>removeParam</name>
+   <function-class>vn.onepay.web.tld.MyCustomTagLib</function-class>
+    <function-signature>String removeParam(java.lang.String, java.lang.String)</function-signature>
+    <example>
+      &lt;c:if test="${onepay:removeParam(url, paramName)}"&gt;
+    </example>
+  </function>
+  
+  <function>
+    <description>
+      1Pay getFullRequestUrl
+    </description>
+    <name>getFullRequestUrl</name>
+    <function-class>vn.onepay.web.tld.MyCustomTagLib</function-class>
+    <function-signature>String getFullRequestUrl(javax.servlet.http.HttpServletRequest)</function-signature>
+    <example>
+      &lt;c:if test="${onepay:getFullRequestUrl(request)}"&gt;
+    </example>
+  </function>
+  
+  <function>
+    <description>
+      1Pay numberToText
+    </description>
+    <name>numberToText</name>
+   <function-class>vn.onepay.web.tld.MyCustomTagLib</function-class>
+    <function-signature>String numberToText(java.lang.String)</function-signature>
+    <example>
+      &lt;c:if test="${numberToText(number)}"&gt;
+    </example>
+  </function>
+  
+  <function>
+    <description>
+      1Pay describeCamparisonAction
+    </description>
+    <name>describeCamparisonAction</name>
+   <function-class>vn.onepay.web.tld.MyCustomTagLib</function-class>
+    <function-signature>String describeCamparisonAction(int, int)</function-signature>
+    <example>
+      &lt;c:if test="${describeCamparisonAction(beginStatus, endStatus)}"&gt;
+    </example>
+  </function>
+  
+  <function>
+    <description>
+      1Pay describeProviderComparisonAction
+    </description>
+    <name>describeProviderCamparisonAction</name>
+   <function-class>vn.onepay.web.tld.MyCustomTagLib</function-class>
+    <function-signature>String describeProviderCamparisonAction(int, int)</function-signature>
+    <example>
+      &lt;c:if test="${describeProviderCamparisonAction(beginStatus, endStatus)}"&gt;
+    </example>
+  </function>
+  
+  <function>
+    <description>
+      1Pay providerCode2Text
+    </description>
+    <name>providerCode2Text</name>
+    <function-class>vn.onepay.web.tld.MyCustomTagLib</function-class>
+    <function-signature>String providerCode2Text(java.lang.String)</function-signature>
+    <example>
+      &lt;c:if test="${onepay:providerCode2Text(code)}"&gt;
+    </example>
+  </function>
+  
+   <function>
+    <description>
+      1Pay merchantPolicyCode2Text
+    </description>
+    <name>merchantPolicyCode2Text</name>
+    <function-class>vn.onepay.web.tld.MyCustomTagLib</function-class>
+    <function-signature>String merchantPolicyCode2Text(java.lang.String)</function-signature>
+    <example>
+      &lt;c:if test="${onepay:merchantPolicyCode2Text(code)}"&gt;
+    </example>
+  </function>
+  
+  <function>
+    <description>
+      1Pay merchantPolicyCode2ShortText
+    </description>
+    <name>merchantPolicyCode2ShortText</name>
+    <function-class>vn.onepay.web.tld.MyCustomTagLib</function-class>
+    <function-signature>String merchantPolicyCode2ShortText(java.lang.String)</function-signature>
+    <example>
+      &lt;c:if test="${onepay:merchantPolicyCode2ShortText(code)}"&gt;
+    </example>
+  </function>
+  
+  <function>
+    <description>
+      1Pay merchantContractCode2Text
+    </description>
+    <name>merchantContractCode2Text</name>
+    <function-class>vn.onepay.web.tld.MyCustomTagLib</function-class>
+    <function-signature>String merchantContractCode2Text(java.lang.String)</function-signature>
+    <example>
+      &lt;c:if test="${merchantContractCode2Text(code)}"&gt;
+    </example>
+  </function>
+  
+  <function>
+    <description>
+      1Pay chargingServiceCode2Text
+    </description>
+    <name>chargingServiceCode2Text</name>
+    <function-class>vn.onepay.web.tld.MyCustomTagLib</function-class>
+    <function-signature>String chargingServiceCode2Text(java.lang.String)</function-signature>
+    <example>
+      &lt;c:if test="${chargingServiceCode2Text(code)}"&gt;
+    </example>
+  </function>
+  
+  <function>
+    <description>
+      1Pay getDepartmentOfMerchant
+    </description>
+    <name>getDepartmentOfMerchant</name>
+    <function-class>vn.onepay.web.tld.MyCustomTagLib</function-class>
+    <function-signature>String getDepartmentOfMerchant(java.lang.String)</function-signature>
+    <example>
+      &lt;c:if test="${getDepartmentOfMerchant(code)}"&gt;
+    </example>
+  </function>
+  
+  <function>
+    <description>
+      1Pay getContractTypeOfMerchant
+    </description>
+    <name>getContractTypeOfMerchant</name>
+    <function-class>vn.onepay.web.tld.MyCustomTagLib</function-class>
+    <function-signature>String getContractTypeOfMerchant(java.lang.String, javax.servlet.http.HttpServletRequest)</function-signature>
+    <example>
+      &lt;c:if test="${getContractTypeOfMerchant(merchant, request)}"&gt;
+    </example>
+  </function>
+  
+  <function>
+    <description>
+      1Pay getStatusVerifyEmail
+    </description>
+    <name>getStatusVerifyEmail</name>
+    <function-class>vn.onepay.web.tld.MyCustomTagLib</function-class>
+    <function-signature>boolean getStatusVerifyEmail(java.lang.String, javax.servlet.http.HttpServletRequest)</function-signature>
+    <example>
+      &lt;c:if test="${getStatusVerifyEmail(merchant, request)}"&gt;
+    </example>
+  </function>
+  
+  <function>
+    <description>
+      1Pay getStatusVerifyPhone
+    </description>
+    <name>getStatusVerifyPhone</name>
+    <function-class>vn.onepay.web.tld.MyCustomTagLib</function-class>
+    <function-signature>boolean getStatusVerifyPhone(java.lang.String, javax.servlet.http.HttpServletRequest)</function-signature>
+    <example>
+      &lt;c:if test="${getStatusVerifyPhone(merchant, request)}"&gt;
+    </example>
+  </function>
+  
+  <function>
+    <description>
+      1Pay getStatusVerifyBillingInfo
+    </description>
+    <name>getStatusVerifyBillingInfo</name>
+    <function-class>vn.onepay.web.tld.MyCustomTagLib</function-class>
+    <function-signature>boolean getStatusVerifyBillingInfo(java.lang.String, javax.servlet.http.HttpServletRequest)</function-signature>
+    <example>
+      &lt;c:if test="${getStatusVerifyBillingInfo(merchant, request)}"&gt;
+    </example>
+  </function>
+  
+  <function>
+    <description>
+      1Pay getEmail
+    </description>
+    <name>getEmail</name>
+    <function-class>vn.onepay.web.tld.MyCustomTagLib</function-class>
+    <function-signature>String getEmail(java.lang.String, javax.servlet.http.HttpServletRequest)</function-signature>
+    <example>
+      &lt;c:if test="${getEmail(merchant, request)}"&gt;
+    </example>
+  </function>
+  
+  <function>
+    <description>
+      1Pay getPhone
+    </description>
+    <name>getPhone</name>
+    <function-class>vn.onepay.web.tld.MyCustomTagLib</function-class>
+    <function-signature>String getPhone(java.lang.String, java.lang.String, javax.servlet.http.HttpServletRequest)</function-signature>
+    <example>
+      &lt;c:if test="${getPhone(merchant, email, request)}"&gt;
+    </example>
+  </function>
+  
+  <function>
+    <description>
+      1Pay getPhoneAccount
+    </description>
+    <name>getPhoneAccount</name>
+    <function-class>vn.onepay.web.tld.MyCustomTagLib</function-class>
+    <function-signature>String getPhoneAccount(java.lang.String, javax.servlet.http.HttpServletRequest)</function-signature>
+    <example>
+      &lt;c:if test="${getPhoneAccount(merchant, request)}"&gt;
+    </example>
+  </function>
+  
+  <function>
+    <description>
+      1Pay getPhoneNotVerifiedAccountOtherContract
+    </description>
+    <name>getPhoneNotVerifiedAccountOtherContract</name>
+    <function-class>vn.onepay.web.tld.MyCustomTagLib</function-class>
+    <function-signature>boolean getPhoneNotVerifiedAccountOtherContract(java.lang.String, java.lang.String, javax.servlet.http.HttpServletRequest)</function-signature>
+    <example>
+      &lt;c:if test="${getPhoneNotVerifiedAccountOtherContract(merchant, phone, request)}"&gt;
+    </example>
+  </function>
+  <function>
+    <description>
+      1Pay getEmailNotVerifiedAccountOtherContract
+    </description>
+    <name>getEmailNotVerifiedAccountOtherContract</name>
+    <function-class>vn.onepay.web.tld.MyCustomTagLib</function-class>
+    <function-signature>boolean getEmailNotVerifiedAccountOtherContract(java.lang.String, java.lang.String, javax.servlet.http.HttpServletRequest)</function-signature>
+    <example>
+      &lt;c:if test="${getEmailNotVerifiedAccountOtherContract(merchant, email, request)}"&gt;
+    </example>
+  </function>
+  
+  <function>
+    <description>
+      1Pay profileVerson2Text
+    </description>
+    <name>profileVerson2Text</name>
+   <function-class>vn.onepay.web.tld.MyCustomTagLib</function-class>
+    <function-signature>String profileVerson2Text(int)</function-signature>
+    <example>
+      &lt;c:if test="${profileVerson2Text(ver)}"&gt;
+    </example>
+  </function>
+  
+  <function>
+    <description>
+      1Pay validatePhoneNumber
+    </description>
+    <name>validatePhoneNumber</name>
+   <function-class>vn.onepay.web.tld.MyCustomTagLib</function-class>
+    <function-signature>java.lang.Boolean validatePhoneNumber(java.lang.String)</function-signature>
+    <example>
+      &lt;c:if test="${validatePhoneNumber(phone)}"&gt;
+    </example>
+  </function>
+  
+  <function>
+    <description>
+      1Pay getQueryString
+    </description>
+    <name>getQueryString</name>
+   <function-class>vn.onepay.web.tld.MyCustomTagLib</function-class>
+    <function-signature>java.lang.Boolean getQueryString(javax.servlet.http.HttpServletRequest)</function-signature>
+    <example>
+      &lt;c:if test="${getQueryString(request)}"&gt;
+    </example>
+  </function>
+  
+  <function>
+    <description>
+      1Pay describeMerchantProfileAction
+    </description>
+    <name>describeMerchantProfileAction</name>
+   <function-class>vn.onepay.web.tld.MyCustomTagLib</function-class>
+    <function-signature>String describeMerchantProfileAction(int, int)</function-signature>
+    <example>
+      &lt;c:if test="${describeMerchantProfileAction(beginStatus, endStatus)}"&gt;
+    </example>
+  </function>
+  
+  <function>
+    <description>
+      1Pay invisibleString
+    </description>
+    <name>invisibleString</name>
+   <function-class>vn.onepay.web.tld.MyCustomTagLib</function-class>
+    <function-signature>String invisibleString(java.lang.String, int, java.lang.String, boolean)</function-signature>
+    <example>
+      &lt;c:if test="${invisibleString(String, numOfCharacter, replaceCharacter, isBeginOrEnd)}"&gt;
+    </example>
+  </function>
+  
+  <function>
+    <description>
+      1Pay getOwner
+    </description>
+    <name>getOwner</name>
+   <function-class>vn.onepay.web.tld.MyCustomTagLib</function-class>
+    <function-signature>String getOwner(java.lang.String, javax.servlet.http.HttpServletRequest)</function-signature>
+    <example>
+      &lt;c:if test="${getOwner(merchant, request)}"&gt;
+    </example>
+  </function>
+  
+  <function>
+    <description>
+      1Pay viewEditMerchantProfile
+    </description>
+    <name>viewEditMerchantProfile</name>
+    <function-class>vn.onepay.web.tld.MyCustomTagLib</function-class>
+    <function-signature>boolean viewEditMerchantProfile(int)</function-signature>
+    <example>
+      &lt;c:if test="${viewEditMerchantProfile(status)}"&gt;
+    </example>
+  </function>
+  
+  <function>
+    <description>
+      1Pay viewCloneMerchantProfile
+    </description>
+    <name>viewCloneMerchantProfile</name>
+    <function-class>vn.onepay.web.tld.MyCustomTagLib</function-class>
+    <function-signature>boolean viewCloneMerchantProfile(int, java.lang.String)</function-signature>
+    <example>
+      &lt;c:if test="${viewCloneMerchantProfile(status, activate)}"&gt;
+    </example>
+  </function>
+  
+  <function>
+    <description>
+      1Pay base64Encode
+    </description>
+    <name>base64Encode</name>
+    <function-class>vn.onepay.web.tld.MyCustomTagLib</function-class>
+    <function-signature>java.lang.String base64Encode(java.lang.String)</function-signature>
+    <example>
+      &lt;c:if test="${base64Encode(stringToEncode)}"&gt;
+    </example>
+  </function>
+  
+  <function>
+    <description>
+      1Pay base64Decode
+    </description>
+    <name>base64Decode</name>
+    <function-class>vn.onepay.web.tld.MyCustomTagLib</function-class>
+    <function-signature>java.lang.String base64Decode(java.lang.String)</function-signature>
+    <example>
+      &lt;c:if test="${base64Decode(stringToDecode)}"&gt;
+    </example>
+  </function>
+  
+  <function>
+    <description>
+      1Pay billingType2Text
+    </description>
+    <name>billingType2Text</name>
+    <function-class>vn.onepay.web.tld.MyCustomTagLib</function-class>
+    <function-signature>java.lang.String billingType2Text(java.lang.String)</function-signature>
+    <example>
+      &lt;c:if test="${billingType2Text(code)}"&gt;
+    </example>
+  </function>
+  
+  
+  <function>
+    <description>
+      1Pay cardStatus2Text
+    </description>
+    <name>cardStatus2Text</name>
+    <function-class>vn.onepay.web.tld.MyCustomTagLib</function-class>
+    <function-signature>java.lang.String cardStatus2Text(java.lang.String)</function-signature>
+    <example>
+      &lt;c:if test="${cardStatus2Text(status)}"&gt;
+    </example>
+  </function>
+  
+  <function>
+    <description>
+      1Pay getMerchantProfileLogs
+    </description>
+    <name>getMerchantProfileLogs</name>
+   <function-class>vn.onepay.web.tld.MyCustomTagLib</function-class>
+    <function-signature>String getMerchantProfileLogs(java.lang.String, java.lang.String, javax.servlet.http.HttpServletRequest)</function-signature>
+    <example>
+      &lt;c:if test="${getMerchantProfileLogs(profileId, action, request)}"&gt;
+    </example>
+  </function>
+  
+</taglib>

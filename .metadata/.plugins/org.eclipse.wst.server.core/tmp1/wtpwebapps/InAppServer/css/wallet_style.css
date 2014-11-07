@@ -1,0 +1,115 @@
+.a_tag a{
+	font-size: 14px;
+	color: #2c8f39;
+	display: block;
+	padding: 5px 0px 5px 0px;
+}
+
+.a_tag a:HOVER {
+	font-size: 14px;
+	color: #2c8f39;
+	display: block;
+	padding: 5px 0px 5px 0px;
+}
+
+.input_txt{
+	width: 80%;
+	padding: 5px;
+	margin-left: 5%;
+}
+
+.input_number{
+	width: 80%;
+	padding: 5px;
+	margin-left: 5%;
+	text-align: right;
+}
+
+.select_style{
+	width: 40%;
+	padding: 5px;
+	margin-left: 5%;
+}
+
+.text_al_right{
+	text-align: right;
+}
+
+.text_al_left{
+	text-align: left;
+	margin-left: 5%;
+}
+
+
+.bottom_border_span{
+	width: 100%; display: block; border-bottom: 1px solid #CCCCCC;
+}
+
+#form_info table{
+		font-size: 14px;
+}
+#form_info table tr{
+	padding: 5px;
+}
+#form_info table tr td:FIRST-CHILD{
+	width: 30%;
+}
+
+.width50{
+	width: 50px;
+}
+
+.width80{
+	width: 80px;
+}
+
+.width120{
+	width: 120px;
+}
+.sub_cat a.coins_add
+{
+	background: url(../images/coins_add.png) no-repeat left;
+	padding-left: 22px;
+}
+
+.sub_cat a.coins_add:hover
+{
+	background: url(../images/coins_add.png) no-repeat left;
+	padding-left: 22px;
+}
+
+.sub_cat a.forward
+{
+	background: url(../images/forward.png) no-repeat left;
+	padding-left: 22px;
+}
+
+.sub_cat a.forward:hover
+{
+	background: url(../images/forward.png) no-repeat left;
+	padding-left: 22px;
+}
+
+.sub_cat a.paid:hover
+{
+	background: url(../images/card_normal.png) no-repeat left;
+	padding-left: 22px;
+}
+
+.sub_cat a.paid
+{
+	background: url(../images/card_normal.png) no-repeat left;
+	padding-left: 22px;
+}
+
+.sub_cat a.transaction_manager:hover
+{
+	background: url(../images/user_normal.png) no-repeat left;
+	padding-left: 22px;
+}
+
+.sub_cat a.transaction_manager
+{
+	background: url(../images/user_normal.png) no-repeat left;
+	padding-left: 22px;
+}

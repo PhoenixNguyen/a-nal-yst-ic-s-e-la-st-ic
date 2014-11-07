@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section name="Workbench">
+	<section name="org.eclipse.ui.texteditor.FindReplaceDialog_dialogBounds">
+		<item value="309" key="DIALOG_WIDTH"/>
+		<item value="92" key="DIALOG_Y_ORIGIN"/>
+		<item value="12" key="DIALOG_X_ORIGIN"/>
+		<item value="480" key="DIALOG_HEIGHT"/>
+		<item value="1|Ubuntu|11.0|0|GTK|1|" key="DIALOG_FONT_NAME"/>
+	</section>
+	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
+		<item value="true" key="wrap"/>
+		<item value="false" key="casesensitive"/>
+		<item value="false" key="isRegEx"/>
+		<item value="false" key="incremental"/>
+		<item value="false" key="wholeword"/>
+		<item value="" key="selection"/>
+		<list key="findhistory">
+			<item value="searchClient"/>
+			<item value="fieldset_filter"/>
+			<item value="provider_chart"/>
+			<item value="errorStatus"/>
+			<item value="param."/>
+			<item value="expired_time"/>
+			<item value="add_edit_popup"/>
+			<item value="item"/>
+		</list>
+		<list key="replacehistory">
+			<item value="add_record_popup"/>
+			<item value="ESSmsCdrFilter"/>
+			<item value="ESCardCdrFilter"/>
+			<item value="FilteringSMS"/>
+		</list>
+	</section>
+	<section name="org.eclipse.ui.texteditor.GotoLineAction$GotoLineDialog_dialogBounds">
+		<item value="263" key="DIALOG_Y_ORIGIN"/>
+		<item value="376" key="DIALOG_X_ORIGIN"/>
+	</section>
+</section>

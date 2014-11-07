@@ -1,0 +1,60 @@
+package vn.onepay.search.controller;
+
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.commons.lang.StringUtils;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.servlet.ModelAndView;
+
+import vn.onepay.account.model.Account;
+import vn.onepay.card.dao.ErrorConfigDAO;
+import vn.onepay.card.model.ErrorConfig;
+import vn.onepay.common.SharedConstants;
+import vn.onepay.web.secure.controllers.AbstractProtectedController;
+
+public class CardChargingErrorConfigController extends AbstractProtectedController{
+
+  ErrorConfigDAO errorConfigDAO;
+  protected int limit;
+  
+  public void setLimit(int limit) {
+    this.limit = limit;
+  }
+
+  public void setErrorConfigDAO(ErrorConfigDAO errorConfigDAO) {
+    this.errorConfigDAO = errorConfigDAO;
+  }
+
+  @Override
+  protected ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response, ModelMap model)
+      throws Exception {
+    
+    Account account = (Account) request.getSession().getAttribute(SharedConstants.ACCOUNT_LOGINED);
+    
+    int offset = 0;
+    if (StringUtils.isNumeric(request.getParameter("d-49520-p"))) {
+      offset = Integer.parseInt(request.getParameter("d-49520-p"));
+      if (offset > 0) {
+        offset = (offset - 1) * this.limit;
+      }
+    }
+    
+    int count = 0;
+    List<ErrorConfig> errorConfigs = null;
+    
+    count = errorConfigDAO.findTotalErrorConfig(account, null, null, null, null); 
+    errorConfigs = errorConfigDAO.findErrorConfigs(account, null, null, null, null, offset, limit);
+    
+    
+    model.put("total", count);
+    model.put("pagesize", Integer.valueOf(this.limit));
+    model.put("offset", Integer.valueOf(offset));
+    model.put("list", errorConfigs);
+    
+    return null;
+  }
+
+}

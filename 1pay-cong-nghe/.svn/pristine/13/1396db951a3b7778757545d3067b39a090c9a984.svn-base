@@ -1,0 +1,28 @@
+#upload
+directory.upload.root=/home/thuannh/Eclipse3.7Prj/1Pay/1pay/WebContent/download
+address.upload.root=http://localhost:8080/1pay/download
+#cmnd
+directory.profile.identity.image=/home/thuannh/Eclipse3.7Prj/1Pay/1pay/WebContent/download/identity
+address.profile.identity.image=/download/identity
+
+directory.profile.contract.image=/home/thuannh/Eclipse3.7Prj/1Pay/1pay/WebContent/download/contract
+address.profile.contract.image=/download/contract
+#Product
+directory.upload.product.icon=/product/icon
+address.upload.product.icon=/product/icon
+
+#Sdk item
+directory.upload.product.sdk.item.icon=/product/sdk-item/icon
+address.upload.product.sdk.item.icon=/product/sdk-item/icon
+
+#SMS command code manager
+sms.command.code.create.fees=10000
+sms.command.code.maintenance.fees=4000
+
+sms.serviceNumbers=8x38,6x86,8xx8,7x69
+sms.blackListServiceNumbers=8x38,6x86
+iac.serviceNumbers=9029
+
+sms_cdr_filter_min_total_sms=5
+
+sdk.folder=/opt/one-pay/sdk

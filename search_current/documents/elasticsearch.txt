@@ -1,0 +1,34 @@
+./bin/elasticsearch --cluster.name 1pay_search --node.name 1pay_search
+./bin/elasticsearch.bat --cluster.name 1pay_search --node.name 1pay_search
+
+./bin/elasticsearch --cluster.name elasticsearch --node.name vdc-123-30-238-22
+
+
+curl -XGET 'http://192.168.2.10:9200/_cluster/stats?human&pretty'
+
+
+
+down vote
+It is usually handled automatically.
+
+If autodiscovery doesn't work. Edit the elastic search config file, by enabling unicast discovery
+
+Node 1:
+
+    cluster.name: mycluster
+    name.name: "node1"
+    node.master: true
+    node.data: true
+    discovery.zen.ping.multicast.enabled: false
+    discovery.zen.ping.unicast.hosts: ["node1.example.com"]
+Node 2:
+
+    cluster.name: mycluster
+    name.name: "node2"
+    node.master: false
+    node.data: true
+    discovery.zen.ping.multicast.enabled: false
+    discovery.zen.ping.unicast.hosts: ["node1.example.com"]
+and so on for node 3,4,5. Make node 1 master, and the rest only as data nodes.
+
+Edit: Please note that by ES rule, if you have N nodes, then by convention, N/2+1 nodes should be masters for fail-over mechanisms They may or may not be data nodes, though.

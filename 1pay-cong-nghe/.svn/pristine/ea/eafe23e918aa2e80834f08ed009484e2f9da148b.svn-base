@@ -1,0 +1,49 @@
+.width20 {
+	width: 20px;
+}
+
+.width30 {
+	width: 30px;
+}
+
+.width35 {
+	width: 35px;
+}
+
+.width40 {
+	width: 40px;
+}
+
+.width15 {
+	width: 15px;
+}
+
+.width100 {
+	width: 100px;
+}
+
+#new_cash_flow_popup{
+	display: none;
+	background: #fff;
+	width: 800px;
+	height: auto;
+	padding: 20px;
+	background: none repeat scroll 0 0 #fff;
+	border-radius: 5px;
+	box-shadow: 0 0 4px rgba(0, 0, 0, 0.698);
+	font-size: 14px;
+}
+
+.input_style{
+	padding: 5px; width: 80%; margin-left: 5%;
+	text-align: right;
+}
+
+.input_time{
+	padding: 5px; width: 80%; margin-left: 5%;
+	text-align: center;
+}
+.select_style{
+	padding: 5px; margin-left: 5%; width: 40%;
+}
+

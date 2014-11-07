@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<qualifiedTypeNameHistroy>
+<fullyQualifiedTypeName name="vn.onepay.search.controller.MOAnalyticController"/>
+<fullyQualifiedTypeName name="vn.onepay.cache.dynacache.PassiveDynaMemoryCache"/>
+<fullyQualifiedTypeName name="vn.onepay.search.entities.ESMO"/>
+<fullyQualifiedTypeName name="vn.onepay.cache.dynacache.PassiveDynaHashTableCache"/>
+<fullyQualifiedTypeName name="org.springframework.data.mongodb.core.mapping.Document"/>
+<fullyQualifiedTypeName name="org.springframework.data.annotation.TypeAlias"/>
+<fullyQualifiedTypeName name="org.springframework.data.annotation.Id"/>
+<fullyQualifiedTypeName name="org.springframework.format.annotation.DateTimeFormat"/>
+<fullyQualifiedTypeName name="org.springframework.format.annotation.DateTimeFormat.ISO"/>
+<fullyQualifiedTypeName name="vn.onepay.account.model.Account"/>
+<fullyQualifiedTypeName name="vn.onepay.utils.Utils"/>
+<fullyQualifiedTypeName name="org.springframework.data.mongodb.core.query.Query"/>
+<fullyQualifiedTypeName name="org.springframework.data.mongodb.core.query.Criteria"/>
+<fullyQualifiedTypeName name="org.springframework.data.mongodb.core.query.Sort"/>
+<fullyQualifiedTypeName name="org.springframework.data.domain.Sort"/>
+<fullyQualifiedTypeName name="vn.onepay.search.service.impl.ElasticSearchServiceImpl"/>
+<fullyQualifiedTypeName name="org.elasticsearch.index.query.FilterBuilders"/>
+<fullyQualifiedTypeName name="vn.onepay.search.entities.ESSmsCdrFilter"/>
+<fullyQualifiedTypeName name="vn.onepay.card.model.CardCdr"/>
+<fullyQualifiedTypeName name="vn.onepay.search.entities.ESCardCdr"/>
+<fullyQualifiedTypeName name="vn.onepay.sms.model.SmsCdr"/>
+<fullyQualifiedTypeName name="vn.onepay.search.entities.ESSmsCdr"/>
+<fullyQualifiedTypeName name="java.util.List"/>
+<fullyQualifiedTypeName name="java.util.Arrays"/>
+<fullyQualifiedTypeName name="org.springframework.web.servlet.ModelAndView"/>
+<fullyQualifiedTypeName name="vn.onepay.search.controller.CardChargingErrorConfigController"/>
+<fullyQualifiedTypeName name="java.util.Date"/>
+<fullyQualifiedTypeName name="org.springframework.web.bind.annotation.RequestParam"/>
+<fullyQualifiedTypeName name="java.util.ArrayList"/>
+<fullyQualifiedTypeName name="java.text.SimpleDateFormat"/>
+<fullyQualifiedTypeName name="org.apache.commons.collections.map.LinkedMap"/>
+<fullyQualifiedTypeName name="java.lang.System"/>
+<fullyQualifiedTypeName name="org.apache.commons.lang.StringUtils"/>
+<fullyQualifiedTypeName name="vn.onepay.card.model.ErrorConfig"/>
+<fullyQualifiedTypeName name="java.text.DateFormat"/>
+<fullyQualifiedTypeName name="vn.onepay.card.dao.ErrorConfigDAO"/>
+</qualifiedTypeNameHistroy>

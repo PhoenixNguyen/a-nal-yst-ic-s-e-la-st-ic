@@ -1,0 +1,16 @@
+<Context debug="1" reloadable="true">
+	<!-- MYSQL   -->  
+	<Resource name="jdbc/base-db" auth="Container" type="javax.sql.DataSource"
+		driverClassName="com.mysql.jdbc.Driver" 
+		username="root" password="admin"
+		url="jdbc:mysql://127.0.0.1:3306/1pay?autoReconnect=true&amp;useUnicode=true&amp;characterEncoding=utf8"
+		initialSize="10"
+        maxActive="100"
+        maxIdle="50"
+        minIdle="10"
+		removeAbandoned="true" 
+		removeAbandonedTimeout="60" 
+		validationQuery="select 1" 
+		poolPreparedStatements="true"/>	
+	 
+</Context>

@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Copy element &apos;mo-chart.js.jsp&apos; to &apos;web&apos;&#x0A;- Original project: &apos;search&apos;&#x0A;- Destination element: &apos;web&apos;&#x0A;- Original element: &apos;mo-chart.js.jsp&apos;" description="Copy file" element1="WebContent/layouts/web/mo-chart.js.jsp" files="1" flags="589830" folders="0" id="org.eclipse.jdt.ui.copy" policy="org.eclipse.jdt.ui.copyResources" stamp="1414176987234" target="/search/WebContent/layouts/web" units="0" version="1.0"/>
+</session>
