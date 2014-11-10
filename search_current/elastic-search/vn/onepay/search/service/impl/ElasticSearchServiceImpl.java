@@ -115,7 +115,6 @@ public class ElasticSearchServiceImpl implements ElasticSearchService {
 	}
 
 	public <T> int count(List<String> fields, List<String> terms, Map<String, List<String>> keywords, int facetSize, Class<T> clazz) {
-		//return getTotalRecord(fields, terms, keywords, facetSize, clazz);
 	  return getTotalRecords(queryString("", fields, terms, keywords, null, -1, -1, facetSize, QUERY_FACET),  clazz);
 	  
 	}
@@ -338,85 +337,6 @@ public class ElasticSearchServiceImpl implements ElasticSearchService {
 	  return (int)result.getTotalElements();
 	  
 	}
-	/*private <T> int getTotalRecord(List<String> fields, List<String> terms, Map<String, List<String>> keywords, int facetSize, Class<T> clazz) {
-
-		int countAll = countAllData(clazz);
-		if (fields == null || fields.size() == 0)
-			return countAll;
-
-		// logger.info("countAll: " + countAll);
-
-		int i = 0;
-		int total[] = new int[fields.size()];
-
-		int termCompare = 0;
-		if (terms != null && terms.size() > 0)
-			for (String te : terms) {
-				if (!te.equals(""))
-					termCompare++;
-			}
-
-		if (termCompare == 0) {
-			int fieldCompare = 0;
-			// not choose
-			for (String field : fields) {
-				List<String> termTemps = new ArrayList<String>();
-				if (terms != null && terms.size() > 0) {
-					termTemps.addAll(terms);
-					termTemps.set(i, "");
-				}
-
-				List<Term> termForFields = getFacets(field, fields, termTemps, keywords, countAll, clazz);
-
-				// get count
-				int tmp = 0;
-				if (terms != null && terms.size() > 0)
-					if (terms.get(i).equalsIgnoreCase("") && termForFields.size() > 0) {
-						for (Term term : termForFields) {
-							tmp += term.getCount();
-						}
-						total[i] = tmp;
-						fieldCompare++;
-					}
-
-				i++;
-			}
-			if (fieldCompare > 0) {
-				return NumberUtils.max(total);
-			}
-		} else
-			// Choose any one
-			for (String field : fields) {
-				List<String> termTemps = new ArrayList<String>();
-				if (terms != null && terms.size() > 0) {
-					termTemps.addAll(terms);
-					termTemps.set(i, "");
-				}
-
-				List<Term> termForFields = getFacets(field, fields, termTemps, keywords, countAll, clazz);
-
-				// get count
-				int tmp = 0;
-				if (terms != null && terms.size() > 0)
-					if (terms.get(i).equalsIgnoreCase("") && termForFields.size() > 0) {
-						for (Term term : termForFields) {
-							tmp += term.getCount();
-						}
-						return tmp;
-					}
-
-				i++;
-			}
-
-		// Else all chosen
-		int count = 0;
-		List<Term> rest = getFacets(fields.get(0), fields, terms, keywords, countAll, clazz);
-		for (Term term : rest) {
-			count += term.getCount();
-		}
-
-		return count;
-	}*/
 
 	public <T> long count(SearchQuery query, Class<T> clazz) {
 		long count = elasticsearchTemplate.count(query, clazz);
