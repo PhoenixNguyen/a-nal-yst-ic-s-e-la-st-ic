@@ -107,7 +107,7 @@
 			
 			for (var i = 0; i < levelTimeAll.length; i++) {
 				var item = [];
-				item.push(new Date(parseInt(levelTimeAll[i])));
+				item.push((new Date(parseInt(levelTimeAll[i]))).toString('dd/MM/yyyy HH:mm'));
 				for(var j = 0; j < mapHistogram.length; j++){
 					item.push(mapHistogram[j].list[i].count);
 				}
@@ -127,7 +127,7 @@
 		
            var options = {
              title: 'Lược đồ thời gian',
-             chartArea:{left:50,top:20}
+             chartArea:{left:100,top:20}
            };
 
            var chart = new google.visualization.LineChart(document.getElementById('line_chart'));

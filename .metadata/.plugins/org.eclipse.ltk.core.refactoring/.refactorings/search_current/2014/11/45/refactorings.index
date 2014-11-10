@@ -2,3 +2,20 @@
 1415006500355	Delete element
 1415006537842	Delete element
 1415008724907	Rename resource 'card-error-config.jsp'
+1415353237589	Delete elements
+1415357187224	Rename type 'ErrorConfig'
+1415357289146	Rename type 'ErrorConfigDAO'
+1415357308123	Rename type 'ErrorConfigDAOMongo'
+1415357345154	Rename type 'CardChargingErrorConfigAjax'
+1415357358221	Rename type 'CardChargingErrorConfigController'
+1415358528155	Rename resource 'card-charging-error-config.jsp'
+1415359492625	Move packages
+1415359567115	Move compilation unit
+1415359699152	Delete element
+1415359823594	Delete element
+1415360523190	Move compilation unit
+1415360549687	Delete element
+1415360565165	Rename package 'vn.onepay.card.dao.mongo'
+1415360573666	Rename package 'vn.onepay.card.dao'
+1415360582634	Rename package 'vn.onepay.card.common'
+1415360779354	Delete element

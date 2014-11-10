@@ -15,7 +15,6 @@
 	<classpathentry kind="src" path="sms"/>
 	<classpathentry kind="src" path="elastic-main"/>
 	<classpathentry kind="src" path="elastic-scheduler"/>
-	<classpathentry kind="src" path="card-cdr"/>
 	<classpathentry kind="con" path="org.eclipse.jst.server.core.container/org.eclipse.jst.server.tomcat.runtimeTarget/Apache Tomcat v7.0">
 		<attributes>
 			<attribute name="owner.project.facets" value="jst.web"/>

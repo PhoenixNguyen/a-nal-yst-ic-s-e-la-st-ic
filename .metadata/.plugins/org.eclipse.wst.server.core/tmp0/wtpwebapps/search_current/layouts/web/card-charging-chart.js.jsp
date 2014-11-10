@@ -38,30 +38,21 @@
 		listWrongLast.push({key : parseInt('<c:out value="${item.key}"/>'), count : parseInt('<c:out value="${item.count}"/>')});
 	</c:forEach>
 	<c:forEach var="item" items="${model.statusHistogramMapLast['allStatus'] }">
-		//alert(new Date('<c:out value="${item.key}"/>'));
 		listAllLast.push({key : parseInt('<c:out value="${item.key}"/>'), count : parseInt('<c:out value="${item.count}"/>')});
 	</c:forEach>
 	
-	//alert(new Date(listAllLast[0].key));
-	//alert(listSuccessLast[0].count);
 	var statusPicked = '<c:out value="${param.filter_status}"/>';
-	
 	draw(listAll, listAllLast, $('#comparation').is(':checked'), statusPicked);
 	
 	$('#comparation').change('click', function(){
-		
 		$('#line_chart svg').empty();
-		
 		var val = $(this).is(':checked');
-		//alert(statusPicked == '');
 		draw(listAll, listAllLast, val, statusPicked);
 	});	
 	
 	function draw(listCrr, listLast, compare, statusPicked) {
 		var json = listCrr;
-		
 		var chart;
-
 		nv.addGraph(function() {
 			/* chart = nv.models.lineChart().options({
 				margin : {
@@ -99,7 +90,6 @@
 			chart.dispatch.on('stateChange', function(e) {
 				nv.log('New State:', JSON.stringify(e));
 			});
-
 			return chart;
 		});
 		
@@ -108,14 +98,11 @@
 		
 		var today = new Date();
 		if(from_date == '' || Date.parseExact(from_date, 'dd/MM/yyyy HH:mm') == null){
-			//from_date = '<c:out value="${model.from_date}"/>';
 			from_date = (today.getDate() <10 ?'0'+today.getDate():today.getDate()) +'/' + (today.getMonth() +1) + '/' +today.getFullYear() + ' 00:00';
 		}
 		if(to_date == '' || Date.parseExact(to_date, 'dd/MM/yyyy HH:mm') == null){
-			//to_date = '<c:out value="${model.to_date}"/>';
 			to_date = (today.getDate() <10 ?'0'+today.getDate():today.getDate()) +'/' + (today.getMonth() +1) + '/' +today.getFullYear() + ' 23:00';
 		}
-		//alert(to_date);
 		
 		//Analytic
 		//var period = 0.1;
@@ -123,20 +110,16 @@
 		var toDate = Date.parseExact(to_date, 'dd/MM/yyyy HH:mm');
 		var hours = (toDate.getTime() - fromDate.getTime())/(60*60*1000) + 1;
 		var day = Math.floor((toDate.getTime() - fromDate.getTime())/(24*60*60*1000)) + 1;
-		//alert(day);
 		var levels = hours / period; 
 		
 		var levelTimeAll = generateTemplateTimePeriod(period, fromDate, toDate, hours, levels);
 		var levelTimeAllLast = generateTemplateTimePeriodLast(period, fromDate, toDate, hours, day, levels);
-		
-		//alert(new Date(levelTimeAllLast[0]));
 		
 		function generateTemplateTimePeriod(period, fromDate, toDate, hours, levels){
 			var levelTime = [];
 			for(var i = 0; i < levels; i++){
 				levelTime.push(fromDate.getTime() + i*period*60*60*1000);
 			}
-			
 			return levelTime;
 		}
 		
@@ -153,7 +136,6 @@
 			//To fill missions
 			for (var i = 0; i < levelTimeAll.length; i++) {
 				limitError.push({key : levelTimeAll[i], count : countLimit});
-				
 				if (listCrr == '' || (listCrr.length - 1) < i
 						|| levelTimeAll[i] != listCrr[i].key) {
 					var blank = {
@@ -193,17 +175,14 @@
 				
 				//compare
 				if(compare== true){
-					//alert(new Date(listLast[i].key)+ ' : ' + new Date(levelTimeAllLast[i]));
 					if (listLast == '' || (listLast.length - 1) < i
 							|| levelTimeAllLast[i] != listLast[i].key) {
 						var blank = {
 							key : levelTimeAllLast[i],
 							count : 0
 						};
-						
 						listLast.splice(i, 0, blank);
 					}
-					//alert(listLast[0].count);
 					
 					if (listSuccessLast == '' || (listSuccessLast.length - 1) < i
 							|| levelTimeAllLast[i] != listSuccessLast[i].key) {
@@ -231,24 +210,19 @@
 						};
 						listWrongLast.splice(i, 0, blank);
 					}
-					
 				} 
 			}
-			//alert(listLast[10].count);
 			var lineTotal = [], lineSuccess = [], lineError = [], lineWrong = [], lineLimit = [];
 			var lineTotalLast = [], lineSuccessLast = [], lineErrorLast = [], lineWrongLast = [];
-			
 			for (var i = 0; i < levelTimeAll.length; i++) {
 				lineTotal.push({
 					x : new Date(parseInt(listCrr[i].key)),
 					y : listCrr[i].count
 				});
-
 				lineSuccess.push({
 					x : new Date(parseInt(listSuccess[i].key)),
 					y : listSuccess[i].count
 				});
-
 				lineError.push({
 					x : new Date(parseInt(listError[i].key)),
 					y : listError[i].count
@@ -257,24 +231,20 @@
 					x : new Date(parseInt(listWrong[i].key)),
 					y : listWrong[i].count
 				});
-				
 				lineLimit.push({
 					x : new Date(parseInt(limitError[i].key)),
 					y : limitError[i].count
 				});
-				
 				//compare
 				if(compare== true){
 					lineTotalLast.push({
 						x : new Date(parseInt(listLast[i].key) + day*oneDayMilis),
 						y : listLast[i].count
 					});
-
 					lineSuccessLast.push({
 						x : new Date(parseInt(listSuccessLast[i].key) + day*oneDayMilis),
 						y : listSuccessLast[i].count
 					});
-
 					lineErrorLast.push({
 						x : new Date(parseInt(listErrorLast[i].key) + day*oneDayMilis),
 						y : listErrorLast[i].count
@@ -284,14 +254,11 @@
 						y : listWrongLast[i].count
 					});
 				}
-
 			}
-			
 			return getListToDisplay(compare, statusPicked, lineTotal, lineSuccess, lineError, lineWrong, lineLimit, lineTotalLast, lineSuccessLast, lineErrorLast, lineWrongLast);
 		}
 		
 		function getListToDisplay(compare, status, lineTotal, lineSuccess, lineError, lineWrong, lineLimit, lineTotalLast, lineSuccessLast, lineErrorLast, lineWrongLast){
-			//alert(compare);
 			if(compare == false){
 				if(status == 'successStatus'){
 					return [{
@@ -323,7 +290,6 @@
 						color : "#FA8072"
 					}];
 				} else{
-					//alert(lineSuccess);
 					return [ {
 						area:true,
 						values : lineTotal,
@@ -488,6 +454,10 @@
 	var statusSuccess = [];
 	var statusError = [];
 	var statusWrong = [];
+	var maintenanceCount = 0;
+	if(!isNaN('<c:out value="${model.maintenanceCount}"/>'))
+		maintenanceCount = parseInt('<c:out value="${model.maintenanceCount}"/>');
+	
 	<c:forEach var="item" items="${model.successStatus }">
 		statusSuccess.push('<c:out value="${item}"/>');
 	</c:forEach>
@@ -507,7 +477,6 @@
 		typeFacet.push({term : '<c:out value="${item.term}"/>', count : '<c:out value="${item.count}"/>'});
 	</c:forEach>
 	<c:forEach var="item" items="${model.facetsMap['paymentProvider'] }">
-		//alert('<c:out value="${item.count}"/>');
 		providerFacet.push({term : '<c:out value="${item.term}"/>', count : '<c:out value="${item.count}"/>'});
 	</c:forEach>
 	<c:forEach var="item" items="${model.facetsMap['merchant'] }">
@@ -545,24 +514,19 @@
 			
 			if(json != ''){
 				$.each(json, function(k, v) {
-	
 					$.each(statusSuccess, function(i, item) {
-	
 						if (item == v.term)
 							successCount += parseInt(v.count);
 					});
-	
 					$.each(statusError, function(i, item) {
 						if (item == v.term) {
 							errorCount += parseInt(v.count);
 						}
 					});
-	
 					$.each(statusWrong, function(i, item) {
 						if (item == v.term)
 							wrongCount += parseInt(v.count);
 					});
-	
 				});
 				
 				statusArrays.push({
@@ -570,17 +534,22 @@
 					value : successCount
 				});
 				statusArrays.push({
-					key : 'Thẻ lỗi ',
-					value : errorCount
+                    key : 'Thẻ sai ',
+                    value : wrongCount
+                });
+				statusArrays.push({
+					key : 'Thẻ lỗi', 
+					value : (errorCount - maintenanceCount)
 				});
 				statusArrays.push({
-					key : 'Thẻ sai ',
-					value : wrongCount
-				});
+                    key : 'Thẻ lỗi bảo trì', 
+                    value : maintenanceCount
+                });
+				
 			}
 			
 			nv.addGraph(function() {
-				var colors = [ "#2ca02c", "#FF0000", "#DAA520" ];
+				var colors = [ "#2ca02c", "#DAA520", "#FF0000", "#E80000"];
 				var chart = nv.models.pieChart().x(function(d) {
 					return d.key;
 				}).y(function(d) {
@@ -591,7 +560,6 @@
 				d3.select(id).datum(statusArrays).transition().duration(1200)
 						.attr('width', width).attr('height', height)
 						.call(chart);
-
 				chart.dispatch.on('stateChange', function(e) {
 					nv.log('New State:', JSON.stringify(e));
 				});

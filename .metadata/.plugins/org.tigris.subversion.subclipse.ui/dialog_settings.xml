@@ -2,7 +2,7 @@
 <section name="Workbench">
 	<item value="500" key="CommitDialog.weights.0"/>
 	<item value="500" key="CommitDialog.weights.1"/>
-	<item value="744" key="passwordStores.size.y"/>
+	<item value="716" key="passwordStores.size.y"/>
 	<item value="578" key="passwordStores.size.x"/>
 	<item value="112" key="HistoryTableProvider.SVNHistoryPage.Author"/>
 	<item value="764" key="SwitchDialogWithConflictHandling.size.y"/>
@@ -14,9 +14,9 @@
 	<item value="24" key="passwordStores.location.y"/>
 	<item value="336" key="passwordStores.location.x"/>
 	<item value="141" key="HistoryTableProvider.SVNHistoryPage.Date"/>
-	<item value="638" key="CommitDialog.size.x"/>
 	<item value="280" key="HistoryTableProvider.SVNHistoryPage.Comment"/>
-	<item value="208" key="CommitDialog.size.y"/>
+	<item value="518" key="CommitDialog.size.x"/>
+	<item value="127" key="CommitDialog.size.y"/>
 	<item value="57" key="HistoryTableProvider.SVNHistoryPage.Revision"/>
 	<section name="CommitWizard">
 		<item value="false" key="ShowCompare"/>

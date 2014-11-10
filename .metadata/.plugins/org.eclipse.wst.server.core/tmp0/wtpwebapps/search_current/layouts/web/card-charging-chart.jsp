@@ -26,6 +26,7 @@
 <script src="<%=request.getContextPath() %>/js/jquery.datetimepicker.js"></script>
 
 <jsp:include page="chart.lib.jsp" />
+<jsp:include page="card-charging.css.jsp" />
 
 <style>
 	.fieldset_filter {border: solid 1px #ccc;margin-left:20px; margin-bottom:20px; width: auto;}
@@ -175,7 +176,6 @@ $(function(){
 						<jsp:include page="card-charging-chart-menu.jsp" />
 						
 						<div class="right_content">
-							<%-- <a href="<%=request.getContextPath() %>/protected/card-charging.html" class="search_" style="margin-right: 5px;"><span>Tìm kiếm chi tiết</span></a> --%>
 							<h1 class="srv_title">Phân tích giao dịch thẻ</h1>
 							<div id="countdowntimer">
 								<i>
@@ -186,38 +186,38 @@ $(function(){
 							</div>
 							<script type="text/javascript">
 							$(function(){
-								//function refresh(){
-									var refresh = '<c:out value="${param.refresh}"/>';
-									if(refresh == '' || refresh != 'on')
-										return;
-									var timeText = '<c:out value="${param.from_date}"/>';
-									var day = new Date();
-									var today = new Date(day.getFullYear() +'/' + (day.getMonth() +1) + '/' +day.getDate());
-									
-									var timeSearch;
-									if(timeText != '')
-										timeSearch = Date.parseExact(timeText, 'dd/MM/yyyy HH:mm');
-									else
-										timeSearch = today;
-									
-									if(timeSearch.getTime() >= today.getTime() && timeSearch.getTime() < (today.getTime() + 24*60*60*1000) ){
-										$('#countdowntimer').css('display', 'block');
-										$(function(){
-					                         $('#future_date').countdowntimer({
-					                             minutes :1,
-					                             size : "lg",
-					                             timeUp : timeisUp
-					                         });
-					                   });
-										function timeisUp() {
-											location.reload();
-								        }
-									}
-								//}
+								var refresh = '<c:out value="${param.refresh}"/>';
+								if(refresh == '' || refresh != 'on')
+									return;
+								var timeText = '<c:out value="${param.from_date}"/>';
+								var day = new Date();
+								var today = new Date(day.getFullYear() +'/' + (day.getMonth() +1) + '/' +day.getDate());
+								
+								var timeSearch;
+								if(timeText != '')
+									timeSearch = Date.parseExact(timeText, 'dd/MM/yyyy HH:mm');
+								else
+									timeSearch = today;
+								
+								if(timeSearch.getTime() >= today.getTime() && timeSearch.getTime() < (today.getTime() + 24*60*60*1000) ){
+									$('#countdowntimer').css('display', 'block');
+									$(function(){
+				                         $('#future_date').countdowntimer({
+				                             minutes :1,
+				                             size : "lg",
+				                             timeUp : timeisUp
+				                         });
+				                   });
+									function timeisUp() {
+										location.reload();
+							        }
+								}
 							});
-							</script>
-							
+						</script>
+						
 							<!-- Filter -->
+							<a href="card-maintenance-calendar.html" class="add_record"
+                                    style="margin-right: 5px;"><span>Lịch bảo trì</span></a>
 							<div id="filter_locketqua">
 								<h3 class="filter_label open">
 									<a href="#">Lọc kết quả</a>
@@ -225,161 +225,94 @@ $(function(){
 							</div>
 							<form action="card-analytics.html" method="get" name="filter_histogram">
 							<div class="box_locketqua">
+								<c:forEach items="${model.fieldMaps }" var="map">
 								
-									<c:forEach items="${model.fieldMaps }" var="map">
+									<c:if test="${param[map.key] != null && param[map.key] != ''  }">
+										<input type="hidden" name="${map.key }" value="${param[map.key] }"/>
+									</c:if>
+								</c:forEach>	
+								
+								<div class="filter_row">
+									<label class="label_filter">Từ ngày:</label>
+									<input id="from_date" maxlength="100" name="from_date" value="${param.from_date}" class="select_filter" placeholder="Chọn ngày"/>
+									<label class="label_filter">Đến ngày:</label>
+									<input id="to_date" maxlength="100" name="to_date" value="${param.to_date}" class="select_filter" placeholder="Chọn ngày"/>
+									<label class="label_filter">Trạng thái:</label>
+									<select class="select_filter" name="filter_status" style="width:145px; padding: 6px; margin-left: 0px;">
+											<option value="" ${param.filter_status == ''?'selected':''}>Tất cả</option>
+											<c:forEach var="status" items="${model.statusMap }">
+													<option value="${status.key }" ${param.filter_status == status.key ?'selected':''}>
+														<c:out value="${status.value}"/>
+													</option>
+											</c:forEach>
+									</select>
+									<script type="text/javascript">
 									
-										<c:if test="${param[map.key] != null && param[map.key] != ''  }">
-											<input type="hidden" name="${map.key }" value="${param[map.key] }"/>
-										</c:if>
-									</c:forEach>	
-									
-									<div class="filter_row">
-										<label class="label_filter">Từ ngày:</label>
-										<input id="from_date" maxlength="100" name="from_date" value="${param.from_date}" class="select_filter" placeholder="Chọn ngày"/>
-										<label class="label_filter">Đến ngày:</label>
-										<input id="to_date" maxlength="100" name="to_date" value="${param.to_date}" class="select_filter" placeholder="Chọn ngày"/>
-										<label class="label_filter">Trạng thái:</label>
-										<select class="select_filter" name="filter_status" style="width:145px; padding: 6px; margin-left: 0px;">
-												<option value="" ${param.filter_status == ''?'selected':''}>Tất cả</option>
-												<c:forEach var="status" items="${model.statusMap }">
-														<option value="${status.key }" ${param.filter_status == status.key ?'selected':''}>
-															<c:out value="${status.value}"/>
+										$(function(){
+											//Enter
+											$('form[name=filter_histogram] input[name=filter_merchant]').keydown(function(event) {
+										        if (event.keyCode == 13) {
+										            this.form.submit();
+										            return false;
+										         }
+										    });
+											var from_date = $('input[name=from_date]');
+											if(from_date.val() == '')
+											{
+												var date = new Date();
+												from_date.val(date.toString('dd/MM/yyyy') + ' 00:00');
+											}
+											
+											var to_date = $('input[name=to_date]');
+											if(to_date.val() == '')
+											{
+												var date = new Date();
+												to_date.val(date.toString('dd/MM/yyyy') + ' 23:00');
+											}
+										
+										});
+										$('#from_date').datetimepicker({
+											 lang:'vi',
+											 timepicker:true,
+											 format:'d/m/Y H:i'
+											 /* ,
+											 onClose : function(t){
+												 $('form[name=filter_histogram]').submit();
+											 } */
+											});
+										$('#to_date').datetimepicker({
+											 lang:'vi',
+											 timepicker:true,
+											 format:'d/m/Y H:i'
+											 /* ,
+											 onClose : function(t){
+												 $('form[name=filter_histogram]').submit();
+											 } */
+											});
+									</script>
+								</div>
+								<div class="filter_row">
+									<c:if test="${model.displayMerchant }">
+										<label class="label_filter">Merchant:</label>
+										<input type="text" name="filter_merchant" class="text_filter" placeholder="Nhập tên merchant" value="${param.filter_merchant }"/>
+									</c:if>
+									<c:if test="${isOperator ||  isBizSupporter || isCustomerCare}">
+										<label class="label_filter">Nhà cung cấp:</label>
+										<select class="select_filter" name="filter_provider" style="width:250px; padding: 6px; margin-left: 10px;">
+												<option value="" ${param.filter_provider == ''?'selected':''}>Tất cả</option>
+												<c:forEach var="provider" items="${model.facetAllsMap['paymentProvider'] }">
+														<option value="${provider.getTerm() }" ${param.filter_provider == provider.getTerm()?'selected':''}>
+															<c:out value="${provider.getTerm()}"/>
 														</option>
 												</c:forEach>
 										</select>
-										<script type="text/javascript">
-										
-											//$(document).ready(function(){
-												//click provider
-											$(function(){
-													
-												/* $('form[name=filter_histogram] select[name=filter_provider]').change(function(){
-														$('form[name=filter_histogram]').submit();
-												}); */
-												//Enter
-												$('form[name=filter_histogram] input[name=filter_merchant]').keydown(function(event) {
-											        if (event.keyCode == 13) {
-											            this.form.submit();
-											            return false;
-											         }
-											    });
-												var from_date = $('input[name=from_date]');
-												if(from_date.val() == '')
-												{
-													var date = new Date();
-													from_date.val(date.toString('dd/MM/yyyy') + ' 00:00');
-												}
-												
-												var to_date = $('input[name=to_date]');
-												if(to_date.val() == '')
-												{
-													var date = new Date();
-													to_date.val(date.toString('dd/MM/yyyy') + ' 23:00');
-													
-												}
-											
-											});
-											$('#from_date').datetimepicker({
-												 lang:'vi',
-												 timepicker:true,
-												 format:'d/m/Y H:i'
-												 /* ,
-												 onClose : function(t){
-													 $('form[name=filter_histogram]').submit();
-												 } */
-												});
-											$('#to_date').datetimepicker({
-												 lang:'vi',
-												 timepicker:true,
-												 format:'d/m/Y H:i'
-												 /* ,
-												 onClose : function(t){
-													 $('form[name=filter_histogram]').submit();
-												 } */
-												});
-											
-												
-										</script>
-									</div>
-									<div class="filter_row">
-										<c:if test="${model.displayMerchant }">
-											<label class="label_filter">Merchant:</label>
-											<input type="text" name="filter_merchant" class="text_filter" placeholder="Nhập tên merchant" value="${param.filter_merchant }"/>
-										</c:if>
-										<c:if test="${isOperator ||  isBizSupporter || isCustomerCare}">
-											<label class="label_filter">Nhà cung cấp:</label>
-											<select class="select_filter" name="filter_provider" style="width:250px; padding: 6px; margin-left: 10px;">
-													<option value="" ${param.filter_provider == ''?'selected':''}>Tất cả</option>
-													<c:forEach var="provider" items="${model.facetAllsMap['paymentProvider'] }">
-															<option value="${provider.getTerm() }" ${param.filter_provider == provider.getTerm()?'selected':''}>
-																<c:out value="${provider.getTerm()}"/>
-															</option>
-													</c:forEach>
-											</select>
-										</c:if>
-									</div>
-									
-									<%-- <div class="filter_row">
-										<fieldset class="fieldset_filter">
-											<legend>
-												<input type="checkbox" name="telcoAll" value="telcoAll" id="telcoAll" class="chck_filter" ${fn:contains(param.telcoAll,'telcoAll')?'checked="checked"':'' }  /> Loại thẻ
-												<script type="text/javascript">
-													$(document).ready(function(){
-														$('#telcoAll').click(function() {
-															if(this.checked) {
-																$(this).closest('.filter_row').find('input[type=checkbox]').attr('checked', 'checked');
-															} else {
-																$(this).closest('.filter_row').find('input[type=checkbox]').removeAttr('checked');
-															}
-														});
-													});
-												</script>
-											</legend>
-											
-											<div style="padding: 2px;">
-												<c:set var="allTc" value="," />
-												<c:forEach var="tc" items="${paramValues.filter_card_type}">
-													<c:set var="allTc" value="${allTc}${tc}," />
-												</c:forEach>
-												<c:forEach var="tc" items="${model.facetAllsMap['type']}">
-													<div style="display: inline-block;">
-														<c:set var="_tc" value=",${tc.getTerm()}," />
-														<input type="checkbox" class="chck_filter" name="filter_card_type" title="${tc.getTerm()}" value="${tc.getTerm()}" 
-															${fn:contains(allTc,_tc)?'checked="checked"':'' } />
-														<label class="lbl_chcksub">${tc.getTerm()}</label>
-													</div>
-												</c:forEach>
-											</div>
-										</fieldset>
-									</div> --%>
-									
-								<!-- <div class="filter_row">
-									
-								</div> -->
-								
+									</c:if>
+								</div>
 								<div class="filter_row" style="text-align: center;">
 					               	<input  style="margin-top: 0px;"  class="btn_greensmall" type="submit" value="Lọc" />
 				                </div>
 							</div>
 							
-							<div class="dash_row">
-                                
-                                <div id="dash_tab" style="padding-right: 0; margin-top: 10px;">
-                                    
-                                    <a href="javascript:switchTab('analytics');"  class="tab${(param.tab==null || param.tab=='analytics' || param.tab=='' || param.tab!='error_detail')?'_slc':''}"><span title="Phân tích giao dịch thẻ">Phân tích GD</span></a> 
-                                    <a href="javascript:switchTab('error_detail');"  class="tab${param.tab=='error_detail'?'_slc':''}"><span title="">Chi tiết lỗi</span></a>
-                                    
-                                    <input type="hidden" value="analytics" name="tab"/>
-                                    <script type="text/javascript">
-                                            
-                                        function switchTab(tab){
-                                            
-                                            $('form[name=filter_histogram] input[name=tab]').val(tab);
-                                            $('form[name=filter_histogram]').submit();
-                                        }
-                                    </script> 
-                                </div>
-                            </div>
 							<span style="display: block; float: right; margin-top: 10px">
 								<input type="checkbox" id="comparation" name="comparation" ${param.comparation == 'on'?'checked':'' }/>
 								<label>So sánh</label>
@@ -401,7 +334,7 @@ $(function(){
 							<c:choose>
 								<c:when test="${model.total > 0}">
 									<span class="pagebanner"> Tổng cộng có ${model.total} kết quả tìm thấy. 
-										&nbsp(Thời gian tìm kiếm ${model.timeHandleTotal /1000.0} giây)
+										&nbsp(Thời gian tìm kiếm ${model.timeHandleTotal /1000.0} giây). Tra cứu chi tiết <a href="#" style="color: #2c8f39;"><b>tại đây</b></a>
 									</span>
 								</c:when>
 								<c:otherwise>
@@ -419,12 +352,46 @@ $(function(){
 							  <svg style="height: 500px;"></svg>
 							</div>
 							
-                            <c:if test="${param.tab==null || param.tab=='analytics' || param.tab=='' || param.tab!='error_detail'}">
-                                 <jsp:include page="card-charging-chart-include-analytics.jsp" />
-                            </c:if>
-                            <c:if test="${param.tab == 'error_detail' }">
-                                 <jsp:include page="card-charging-chart-include-error-detail.jsp" />
-                            </c:if>							
+                            <!-- PIE CHART -->
+						    <h1 class="srv_title">Biểu đồ thống kê</h1>
+						    
+						    <div id="status_type">
+						        <fieldset class="fieldset_filter" style="width: 46%; float: left;">
+						            <legend >
+						                <label style="text-align: left;"><b>Trạng thái</b></label>
+						            </legend>
+						            <span class="pie">
+						                <svg id="status_chart" class="pie_child_inline" ></svg>
+						            </span>
+						        </fieldset>
+						        <fieldset class="fieldset_filter" style="width: 46%;">
+						            <legend>
+						                <b>Loại thẻ</b>
+						            </legend>
+						            <span class="pie">
+						                <svg id="type_chart" class="pie_child_inline"></svg>
+						            </span>
+						        </fieldset>
+						    </div>
+						    <c:if test="${isOperator ||  isBizSupporter || isCustomerCare}">
+						        <fieldset class="fieldset_filter">
+						            <legend style="text-align: left;"><b>Nhà cung cấp</b>
+						            </legend>
+						            <span class="pie">
+						                <svg id="provider_chart" class="pie_child"></svg>
+						            </span>
+						        </fieldset>
+						    </c:if>
+						    
+						    <c:if test="${model.displayMerchant }">
+						        <fieldset class="fieldset_filter">
+						            <legend><b>Merchant</b>
+						            </legend>
+						            <span class="pie">
+						                <svg id="merchant_chart" class="pie_child"></svg>
+						            </span>
+						        </fieldset>
+						    </c:if>						
 						</div>
 					</div>
 				</div>

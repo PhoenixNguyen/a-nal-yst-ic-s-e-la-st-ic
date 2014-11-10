@@ -24,9 +24,9 @@ public class Main {
 		Main main = new Main();
 		
 		//Use Repository
-		smsChargingIndexRepository();
+		//smsChargingIndexRepository();
 		
-		//cardChargingIndexRepository();
+		cardChargingIndexRepository();
 	}
 
 	private static void smsChargingIndexRepository() {

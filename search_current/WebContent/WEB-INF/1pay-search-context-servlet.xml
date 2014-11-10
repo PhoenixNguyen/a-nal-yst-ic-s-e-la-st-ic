@@ -8,24 +8,30 @@
 	   http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
 	   http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd">
 
+    <bean name="/protected/card-charging.html" class="vn.onepay.search.controller.CardCdrController" parent ="/protected/abstract.html">
+        <property name="webView" value="card-charging"/>
+        <property name="elasticSearchService" ref="elasticSearchService"/>
+        <property name="limit" value="20"/>
+    </bean>
+    
 	<bean name="/protected/card-analytics.html"
 		class="vn.onepay.search.controller.CardChargingAnalyticController" parent="/protected/abstract.html">
 		<property name="webView" value="card-charging-chart" />
 		<property name="elasticSearchService" ref="elasticSearchService" />
-		<property name="errorConfigDAO" ref="errorConfigDAO" />
+		<property name="maintenanceCalendarDAO" ref="maintenanceCalendarDAO" />
 		<property name="limit" value="20"/>
 	</bean>
 
-    <bean name="/protected/card-error-config.html"
-        class="vn.onepay.search.controller.CardChargingErrorConfigController" parent="/protected/abstract.html">
-        <property name="webView" value="card-charging-error-config" />
-        <property name="errorConfigDAO" ref="errorConfigDAO" />
+    <bean name="/protected/card-maintenance-calendar.html"
+        class="vn.onepay.search.controller.CardChargingMaintenanceCalendarController" parent="/protected/abstract.html">
+        <property name="webView" value="card-charging-maintenance-calendar" />
+        <property name="maintenanceCalendarDAO" ref="maintenanceCalendarDAO" />
         <property name="limit" value="20"/>
     </bean>
     
-    <bean name="/protected/card-error-config-ajax.html"
-        class="vn.onepay.search.api.CardChargingErrorConfigAjax" parent="/protected/abstract.html">
-        <property name="errorConfigDAO" ref="errorConfigDAO" />
+    <bean name="/protected/card-maintenance-calendar-ajax.html"
+        class="vn.onepay.search.api.CardChargingMaintenanceCalendarAjax" parent="/protected/abstract.html">
+        <property name="maintenanceCalendarDAO" ref="maintenanceCalendarDAO" />
     </bean>
     
 	<bean name="/protected/sms-analytics.html"

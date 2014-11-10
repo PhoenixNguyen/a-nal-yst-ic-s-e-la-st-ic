@@ -1,2 +1,4 @@
 .metadata/
-WebContent/WEB-INF/lib
+WebContent/WEB-INF/lib/
+.svn/
+.settings/

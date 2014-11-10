@@ -417,7 +417,7 @@ $(function(){
 							<!-- Statisic chart -->
 							<!-- LINE CHART -->
 							<jsp:include page="sms-chart.js.gg.jsp" />
-							<div id="line_chart" style="height: 400px; width: 880px;"></div>
+							<div id="line_chart" style="height: 400px; width: 830px;"></div>
 							
 							<!-- PIE CHART -->
 							<table width="100%">

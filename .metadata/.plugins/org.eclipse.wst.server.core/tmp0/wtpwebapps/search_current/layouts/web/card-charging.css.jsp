@@ -1,6 +1,24 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <style>
+    .add_record, .add_record:HOVER {
+	    background: url("<%=request.getContextPath()%>/images/add.png")
+	        no-repeat scroll left center,
+	        url("<%=request.getContextPath()%>/images/btngreen_bg.png") repeat-x
+	        scroll center top;
+	    color: #FFFFFF;
+	    display: block;
+	    float: right;
+	    font-weight: bold;
+	    height: 20px;
+	    line-height: 20px;
+	    padding-left: 20px;
+	    padding-right: 5px;
+	    border: 1px solid #39B54A;
+	    border-radius: 10px;
+	    text-shadow: 0 1px #20942B;
+	}
+
     .search_ , .search_:HOVER{
         background: url("<%=request.getContextPath()%>/images/btngreen_bg.png") repeat-x scroll center top;
         color: #FFFFFF;

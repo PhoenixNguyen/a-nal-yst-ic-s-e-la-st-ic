@@ -22,6 +22,7 @@ import org.elasticsearch.search.sort.FieldSortBuilder;
 import org.elasticsearch.search.sort.SortOrder;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
+import org.springframework.data.elasticsearch.core.FacetedPage;
 import org.springframework.data.elasticsearch.core.facet.request.HistogramFacetRequestBuilder;
 import org.springframework.data.elasticsearch.core.facet.request.TermFacetRequestBuilder;
 import org.springframework.data.elasticsearch.core.facet.result.HistogramResult;
@@ -34,6 +35,7 @@ import org.springframework.data.elasticsearch.core.query.IndexQuery;
 import org.springframework.data.elasticsearch.core.query.IndexQueryBuilder;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
 import org.springframework.data.elasticsearch.core.query.SearchQuery;
+import org.springframework.data.elasticsearch.entities.Article;
 
 import vn.onepay.search.service.ElasticSearchService;
 
@@ -66,7 +68,7 @@ public class ElasticSearchServiceImpl implements ElasticSearchService {
 				termLists.add(i, getFacets(f, fields, terms, keywords, countAll, clazz));
 			} else {
 				if (!terms.get(i).equals("")) {
-					termLists.add(i, Arrays.asList(new Term(terms.get(i), getTotalRecord(fields, terms, keywords, facetSize, clazz))));
+					termLists.add(i, Arrays.asList(new Term(terms.get(i), getTotalRecords(queryString("", fields, terms, keywords, null, -1, -1, facetSize, QUERY_FACET),  clazz))));
 				} else {
 					List<String> termTemps = new ArrayList<String>();
 					termTemps.addAll(terms);
@@ -113,8 +115,9 @@ public class ElasticSearchServiceImpl implements ElasticSearchService {
 	}
 
 	public <T> int count(List<String> fields, List<String> terms, Map<String, List<String>> keywords, int facetSize, Class<T> clazz) {
-		return getTotalRecord(fields, terms, keywords, facetSize, clazz);
-
+		//return getTotalRecord(fields, terms, keywords, facetSize, clazz);
+	  return getTotalRecords(queryString("", fields, terms, keywords, null, -1, -1, facetSize, QUERY_FACET),  clazz);
+	  
 	}
 
 	private SearchQuery queryString(String field, List<String> fields, List<String> terms, Map<String, List<String>> keywords, Map<String, SortOrder> sorts,
@@ -251,7 +254,7 @@ public class ElasticSearchServiceImpl implements ElasticSearchService {
 				queryBuilder.withSort(new FieldSortBuilder(fie).ignoreUnmapped(true).order(sorts.get(fie)));
 			}
 
-		if (size != 0)
+		if (size > 0)
 			queryBuilder.withPageable(new PageRequest(page, size));
 
 		if (!field.equals("")) {
@@ -330,7 +333,12 @@ public class ElasticSearchServiceImpl implements ElasticSearchService {
 
 	}
 
-	private <T> int getTotalRecord(List<String> fields, List<String> terms, Map<String, List<String>> keywords, int facetSize, Class<T> clazz) {
+	private <T> int getTotalRecords(SearchQuery searchQuery, Class<T> clazz){
+	  FacetedPage<T> result = elasticsearchTemplate.queryForPage(searchQuery, clazz);
+	  return (int)result.getTotalElements();
+	  
+	}
+	/*private <T> int getTotalRecord(List<String> fields, List<String> terms, Map<String, List<String>> keywords, int facetSize, Class<T> clazz) {
 
 		int countAll = countAllData(clazz);
 		if (fields == null || fields.size() == 0)
@@ -408,7 +416,7 @@ public class ElasticSearchServiceImpl implements ElasticSearchService {
 		}
 
 		return count;
-	}
+	}*/
 
 	public <T> long count(SearchQuery query, Class<T> clazz) {
 		long count = elasticsearchTemplate.count(query, clazz);

@@ -45,7 +45,7 @@
 		<property name="mongoTemplate" ref="mongoTemplate" />
 	</bean>
 	
-	<bean id="errorConfigDAO" class="vn.onepay.card.dao.mongo.ErrorConfigDAOMongo">
+	<bean id="maintenanceCalendarDAO" class="vn.onepay.charging.card.dao.mongo.MaintenanceCalendarDAOMongo">
         <property name="mongoTemplate" ref="mongoTemplate" />
     </bean>
 </beans>
