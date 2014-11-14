@@ -147,7 +147,7 @@ public class WarningSMSFixRateService {
 				dataHistogramMap
 						.put(data.getMerchant() + "::" + data.getMsisdn()
 								+ "::" + data.getProvider(),
-								elasticSearchService.getHistogramFacet(
+								elasticSearchService.getHistogramFacets(
 										fieldHistogram, fields, null, keywords,
 										facetSize, ESSmsCdrFilter.class));
 

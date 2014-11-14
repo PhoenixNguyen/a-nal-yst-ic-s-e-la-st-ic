@@ -1,23 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <section name="Workbench">
 	<item value="500" key="CommitDialog.weights.0"/>
+	<item value="337" key="DifferencesDialog.location.x"/>
 	<item value="500" key="CommitDialog.weights.1"/>
-	<item value="716" key="passwordStores.size.y"/>
-	<item value="578" key="passwordStores.size.x"/>
+	<item value="744" key="passwordStores.size.y"/>
+	<item value="598" key="passwordStores.size.x"/>
 	<item value="112" key="HistoryTableProvider.SVNHistoryPage.Author"/>
-	<item value="764" key="SwitchDialogWithConflictHandling.size.y"/>
+	<item value="http://123.30.238.22:8080/1payrepos/trunk/search" key="UrlCombo.search_current.0"/>
+	<item value="744" key="SwitchDialogWithConflictHandling.size.y"/>
 	<item value="633" key="SwitchDialogWithConflictHandling.size.x"/>
 	<item value="409" key="SwitchDialogWithConflictHandling.location.x"/>
 	<item value="24" key="SwitchDialogWithConflictHandling.location.y"/>
-	<item value="124" key="CommitDialog.location.y"/>
-	<item value="339" key="CommitDialog.location.x"/>
+	<item value="127" key="CommitDialog.location.y"/>
+	<item value="676" key="CommitDialog.location.x"/>
 	<item value="24" key="passwordStores.location.y"/>
 	<item value="336" key="passwordStores.location.x"/>
 	<item value="141" key="HistoryTableProvider.SVNHistoryPage.Date"/>
-	<item value="280" key="HistoryTableProvider.SVNHistoryPage.Comment"/>
-	<item value="518" key="CommitDialog.size.x"/>
-	<item value="127" key="CommitDialog.size.y"/>
+	<item value="436" key="DifferencesDialog.size.y"/>
+	<item value="418" key="CommitDialog.size.x"/>
+	<item value="548" key="HistoryTableProvider.SVNHistoryPage.Comment"/>
+	<item value="388" key="CommitDialog.size.y"/>
+	<item value="756" key="DifferencesDialog.size.x"/>
 	<item value="57" key="HistoryTableProvider.SVNHistoryPage.Revision"/>
+	<item value="120" key="DifferencesDialog.location.y"/>
 	<section name="CommitWizard">
 		<item value="false" key="ShowCompare"/>
 		<item value="500" key="VWeight2"/>

@@ -1,2 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<CommitComments></CommitComments>
+<CommitComments>	<CommitComment>turning</CommitComment>
+	<CommitComment>Change get total records method</CommitComment>
+</CommitComments>

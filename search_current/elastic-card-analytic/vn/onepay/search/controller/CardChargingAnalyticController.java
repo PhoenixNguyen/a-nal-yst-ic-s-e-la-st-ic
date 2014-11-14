@@ -332,12 +332,12 @@ public class CardChargingAnalyticController extends AbstractProtectedController 
 						keywordsLast.put(fieldFilter + operator, ChargeStatus.ALL_CHARGING_ERROR_STATUS);
 					}
 	
-					statusHistogramMap.put(status, elasticSearchService.getHistogramFacet(field, fields, terms, keywords, facetSize, ESCardCdr.class));
-					statusHistogramMapLast.put(status, elasticSearchService.getHistogramFacet(field, fields, terms, keywordsLast, facetSize, ESCardCdr.class));
+					statusHistogramMap.put(status, elasticSearchService.getHistogramFacets(field, fields, terms, keywords, facetSize, ESCardCdr.class));
+					statusHistogramMapLast.put(status, elasticSearchService.getHistogramFacets(field, fields, terms, keywordsLast, facetSize, ESCardCdr.class));
 				}
 			}else{
-				statusHistogramMap.put(statusParam, elasticSearchService.getHistogramFacet(field, fields, terms, keywords, facetSize, ESCardCdr.class));
-				statusHistogramMapLast.put(statusParam, elasticSearchService.getHistogramFacet(field, fields, terms, keywordsLast, facetSize, ESCardCdr.class));
+				statusHistogramMap.put(statusParam, elasticSearchService.getHistogramFacets(field, fields, terms, keywords, facetSize, ESCardCdr.class));
+				statusHistogramMapLast.put(statusParam, elasticSearchService.getHistogramFacets(field, fields, terms, keywordsLast, facetSize, ESCardCdr.class));
 			}
 		}
 

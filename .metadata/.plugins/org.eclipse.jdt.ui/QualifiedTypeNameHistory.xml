@@ -19,7 +19,6 @@
 <fullyQualifiedTypeName name="org.elasticsearch.index.query.FilterBuilders"/>
 <fullyQualifiedTypeName name="vn.onepay.search.entities.ESSmsCdrFilter"/>
 <fullyQualifiedTypeName name="vn.onepay.card.model.CardCdr"/>
-<fullyQualifiedTypeName name="vn.onepay.search.entities.ESCardCdr"/>
 <fullyQualifiedTypeName name="vn.onepay.sms.model.SmsCdr"/>
 <fullyQualifiedTypeName name="vn.onepay.search.entities.ESSmsCdr"/>
 <fullyQualifiedTypeName name="java.util.List"/>
@@ -28,13 +27,23 @@
 <fullyQualifiedTypeName name="vn.onepay.search.controller.CardChargingErrorConfigController"/>
 <fullyQualifiedTypeName name="java.util.Date"/>
 <fullyQualifiedTypeName name="org.springframework.web.bind.annotation.RequestParam"/>
-<fullyQualifiedTypeName name="java.util.ArrayList"/>
-<fullyQualifiedTypeName name="org.apache.commons.collections.map.LinkedMap"/>
-<fullyQualifiedTypeName name="java.lang.System"/>
 <fullyQualifiedTypeName name="org.apache.commons.lang.StringUtils"/>
 <fullyQualifiedTypeName name="vn.onepay.card.model.ErrorConfig"/>
 <fullyQualifiedTypeName name="vn.onepay.card.dao.ErrorConfigDAO"/>
+<fullyQualifiedTypeName name="vn.onepay.card.common.CardConstants"/>
+<fullyQualifiedTypeName name="vn.onepay.search.entities.ESCardCdr"/>
 <fullyQualifiedTypeName name="java.text.DateFormat"/>
 <fullyQualifiedTypeName name="java.text.SimpleDateFormat"/>
-<fullyQualifiedTypeName name="vn.onepay.card.common.CardConstants"/>
+<fullyQualifiedTypeName name="vn.onepay.sms.model.SMS"/>
+<fullyQualifiedTypeName name="org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder"/>
+<fullyQualifiedTypeName name="org.springframework.data.elasticsearch.core.query.UpdateQueryBuilder"/>
+<fullyQualifiedTypeName name="org.elasticsearch.index.query.QueryBuilders"/>
+<fullyQualifiedTypeName name="org.springframework.data.elasticsearch.core.query.UpdateQuery"/>
+<fullyQualifiedTypeName name="org.elasticsearch.action.index.IndexRequestBuilder"/>
+<fullyQualifiedTypeName name="org.elasticsearch.action.index.IndexRequest"/>
+<fullyQualifiedTypeName name="vn.onepay.analytic.model.FilterType"/>
+<fullyQualifiedTypeName name="java.lang.System"/>
+<fullyQualifiedTypeName name="vn.onepay.search.entities.FilterType"/>
+<fullyQualifiedTypeName name="java.util.ArrayList"/>
+<fullyQualifiedTypeName name="org.apache.commons.collections.map.LinkedMap"/>
 </qualifiedTypeNameHistroy>

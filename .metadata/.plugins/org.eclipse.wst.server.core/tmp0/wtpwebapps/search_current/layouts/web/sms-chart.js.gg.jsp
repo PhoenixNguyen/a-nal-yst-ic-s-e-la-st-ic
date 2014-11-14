@@ -42,7 +42,6 @@
 	        to_date = reservation[1].trim();
 		}
 		
-		
 		var today = new Date();
 		if(from_date == '' || Date.parseExact(from_date, 'dd/MM/yyyy') == null){
 			from_date = today.toString('dd/MM/yyyy');
@@ -120,8 +119,8 @@
 		var limitLine = arrayData[0].length-1;
 		
 		//alert(arrayData);
-		for(i = 0; i < arrayData.length; i++)
-			console.log(arrayData[i]);
+		/* for(i = 0; i < arrayData.length; i++)
+			console.log(arrayData[i]); */
 		
 		var data = google.visualization.arrayToDataTable(arrayData);
 		
@@ -137,37 +136,49 @@
 	
 	/////////////////////PIE===============================
 	var tab = '<c:out value="${param.tab}"/>';
-	var topData = [];
-	topData.push(['item', 'value']);
+	var topDataMap = [];
 	
 	if(tab == '' || tab == 'subscriber' || tab != 'merchant'){
-		<c:forEach var="item" items="${model.topData }">
-			topData.push(['<c:out value="${item.msisdn}"/>' , parseInt('<c:out value="${item.amount}"/>')]);
-		</c:forEach>
-	}
-	else{
-		<c:forEach var="item" items="${model.topData }">
-			topData.push(['<c:out value="${item.merchant}"/>' , parseInt('<c:out value="${item.amount}"/>')]);
-		</c:forEach>
-	}
+		<c:forEach var="items" items="${model.topDataMap }">
+	        var topData = [];
+	        topData.push(['item', 'value']);
+	        <c:forEach var="item" items="${items.value }">
+	            topData.push(['<c:out value="${item.msisdn}"/>' , parseInt('<c:out value="${item.amount}"/>')]);
+	        </c:forEach>
+	        topDataMap.push({key : '<c:out value="${items.key}"/>', value : topData});
+        </c:forEach>
+    }
+    else{
+    	<c:forEach var="items" items="${model.topDataMap }">
+	        var topData = [];
+	        topData.push(['item', 'value']);
+	        <c:forEach var="item" items="${items.value }">
+	            topData.push(['<c:out value="${item.merchant}"/>' , parseInt('<c:out value="${item.amount}"/>')]);
+	        </c:forEach>
+	        topDataMap.push({key : '<c:out value="${items.key}"/>', value : topData});
+	    </c:forEach>
+    }
 	
 	google.load("visualization", "1", {packages:["corechart"]});
     google.setOnLoadCallback(drawPieChart);
 	function drawPieChart(){
-		
-		var data = google.visualization.arrayToDataTable(
-				topData);
-        var options = {
-     		    legend: {position:'bottom'},
-     	        pieSliceText: 'percentage',
-     	        title: '',
-     	        pieStartAngle: 100,
-     	        chartArea:{left:0,top:0, width: 300},
-     	      };
-        
-        var chart = new google.visualization.PieChart(document.getElementById('pie_chart'));
-        chart.draw(data, options);
-	}
+		for(var i = 0; i < topDataMap.length; i++){
+			if(topDataMap[i]['value'].length <= 1)
+				continue;
+			var data = google.visualization.arrayToDataTable(
+					topDataMap[i]['value']);
+	        var options = {
+	                legend: {position:'bottom'},
+	                pieSliceText: 'percentage',
+	                title: '',
+	                pieStartAngle: 100,
+	                chartArea:{left:0,top:0, width: 300},
+	              };
+	        
+	        var chart = new google.visualization.PieChart(document.getElementById(topDataMap[i]['key']+'pie_chart'));
+	        chart.draw(data, options);
+		}
+	} 
 	//END PIE
 	
 </script>

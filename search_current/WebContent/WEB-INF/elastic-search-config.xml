@@ -11,7 +11,7 @@
 	xmlns:elasticsearch="http://www.springframework.org/schema/data/elasticsearch">
 
 	<elasticsearch:transport-client id="client"
-		cluster-name="elasticsearch" cluster-nodes="localhost:9300" /> <!-- 123.30.238.22 -->
+		cluster-name="elasticsearch" cluster-nodes="127.0.0.1:9300" /> <!-- 123.30.238.22 -->
 
 	<bean name="elasticsearchTemplate"
 		class="org.springframework.data.elasticsearch.core.ElasticsearchTemplate" scope="singleton">
@@ -23,7 +23,8 @@
 	</bean>
 	
 	<!-- <bean id="searchClient" class="vn.onepay.search.client.SearchClient">
-		<property name="endPoint"  value="http://localhost:8080/search/card/pushIndex" />
+		<property name="cardEndPoint"  value="http://localhost:8080/search/card/pushIndex" />
+		<property name="smsEndPoint"  value="http://localhost:8080/search/sms/pushIndex" />
 		<property name="accessKey" value="72hgke3h3brs6dwh6kgg"/>
 		<property name="secretKey" value="i9er0d7gm7b9l9yt4ib8zjigwf6i1jpm"/>
 		<property name="isActived" value="true"/>

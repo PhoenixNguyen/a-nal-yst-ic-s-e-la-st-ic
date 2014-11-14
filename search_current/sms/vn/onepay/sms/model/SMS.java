@@ -10,7 +10,6 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.DateTimeFormat.ISO;
 
-import vn.onepay.common.SharedConstants;
 @Document(collection = "IACGateway.MO")
 @TypeAlias("iacMO")
 public class SMS implements Serializable{

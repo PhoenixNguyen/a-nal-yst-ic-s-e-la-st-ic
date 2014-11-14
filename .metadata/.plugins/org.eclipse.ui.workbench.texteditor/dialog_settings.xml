@@ -1,28 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <section name="Workbench">
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog_dialogBounds">
-		<item value="289" key="DIALOG_WIDTH"/>
+		<item value="309" key="DIALOG_WIDTH"/>
 		<item value="92" key="DIALOG_Y_ORIGIN"/>
+		<item value="396" key="DIALOG_HEIGHT"/>
 		<item value="12" key="DIALOG_X_ORIGIN"/>
-		<item value="404" key="DIALOG_HEIGHT"/>
 		<item value="1|Ubuntu|11.0|0|GTK|1|" key="DIALOG_FONT_NAME"/>
 	</section>
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
 		<item value="true" key="wrap"/>
-		<item value="false" key="casesensitive"/>
 		<item value="false" key="isRegEx"/>
+		<item value="false" key="casesensitive"/>
 		<item value="false" key="incremental"/>
 		<item value="false" key="wholeword"/>
-		<item value="" key="selection"/>
+		<item value="Sys" key="selection"/>
 		<list key="findhistory">
-			<item value="error-config"/>
-			<item value="maintenance-calendar"/>
-			<item value="errorConfig"/>
-			<item value="ErrorConfig"/>
-			<item value="MaintenanceCalendar"/>
-			<item value="expired_time"/>
-			<item value="param.tab"/>
-			<item value="errorConfigs"/>
+			<item value="sys"/>
+			<item value="select_filter"/>
+			<item value="label_filter"/>
+			<item value="mine"/>
+			<item value="tr_none"/>
+			<item value="items"/>
+			<item value="tab"/>
+			<item value="getTotalRecord"/>
 		</list>
 		<list key="replacehistory">
 			<item value="maintenanceCalendar"/>

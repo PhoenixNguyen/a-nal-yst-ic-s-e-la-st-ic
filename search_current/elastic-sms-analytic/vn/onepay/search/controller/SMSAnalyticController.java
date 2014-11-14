@@ -29,6 +29,7 @@ import org.springframework.web.servlet.ModelAndView;
 import vn.onepay.account.model.Account;
 import vn.onepay.common.SharedConstants;
 import vn.onepay.search.entities.ESSmsCdrFilter;
+import vn.onepay.search.entities.FilterType;
 import vn.onepay.search.entities.FilteringSMS;
 import vn.onepay.search.service.ElasticSearchService;
 import vn.onepay.web.secure.controllers.AbstractProtectedController;
@@ -50,7 +51,13 @@ public class SMSAnalyticController extends AbstractProtectedController {
   public static List<String> SMS_PLUS_PROVIDERS = Arrays.asList(new String[]{"mw_9029", "1pay_9029"});
   public static int DATE_FILTER_MAX = 31;
   
-  @SuppressWarnings("unused")
+  public static int SUBCRIBER_TAB = 1;
+  public static int MERCHANT_TAB = 2;
+  
+  public static int SMS_TAB = 1;
+  public static int SMS_PLUS_TAB = 2;
+  
+  @SuppressWarnings({ "unused", "unchecked" })
   @Override
   protected ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response, ModelMap model)
       throws Exception {
@@ -73,7 +80,24 @@ public class SMSAnalyticController extends AbstractProtectedController {
     String reservation = StringUtils.trimToEmpty(request.getParameter("reservation"));
     String filter_command_code = StringUtils.trimToEmpty(request.getParameter("filter_command_code"));
     String filter_msisdn = StringUtils.trimToEmpty(request.getParameter("filter_msisdn"));
-
+    String filter_type = StringUtils.trimToEmpty(request.getParameter("filter_type"));
+    
+    int smsTab = pv_tab.equals("") || pv_tab.equalsIgnoreCase("sms") || !pv_tab.equalsIgnoreCase("smsplus") ? SMS_TAB:SMS_PLUS_TAB;
+    int tabFilter = tab.equalsIgnoreCase("") || tab.equalsIgnoreCase("subscriber") || !tab.equalsIgnoreCase("merchant") ? SUBCRIBER_TAB:MERCHANT_TAB;
+    model.put("tabFilter", tabFilter);
+    
+    //Show title pie with filter type
+    Map<String , String> filterTypes = new LinkedMap();
+    filterTypes.put(FilterType.OVER_03_MESSAGES_LIMIT_PER_05_MINUTES, "03 tin nhắn / 05 phút");
+    filterTypes.put(FilterType.OVER_05_MESSAGES_LIMIT_PER_10_MINUTES, "05 tin nhắn / 10 phút");
+    filterTypes.put(FilterType.OVER_30_MESSAGES_LIMIT_PER_60_MINUTES, "30 tin nhắn / 60 phút");
+    if(smsTab == SMS_TAB){
+      filterTypes.put(FilterType.OVER_AMOUNT_LIMIT_PER_DAY, "Vượt giới hạn sử dụng 150000/ngày");
+    }else{
+      filterTypes.put(FilterType.OVER_AMOUNT_LIMIT_PER_DAY, "Vượt giới hạn sử dụng 500000/ngày");
+    }
+    model.put("filterTypes", filterTypes);
+    
     List<String> filter_providers = new ArrayList<String>();
     if (request.getParameterValues("providers") != null) {
       filter_providers.addAll(Arrays.asList(request.getParameterValues("providers")));
@@ -142,7 +166,7 @@ public class SMSAnalyticController extends AbstractProtectedController {
     //Tab provider not in
     if(SMS_PLUS_PROVIDERS != null && SMS_PLUS_PROVIDERS.size() > 0){
       //except
-      if(pv_tab.equals("") || pv_tab.equalsIgnoreCase("sms") || !pv_tab.equalsIgnoreCase("smsplus")){
+      if(smsTab == SMS_TAB){
         String operator = "_operator_not_in";
         keywords.put("provider" + operator, SMS_PLUS_PROVIDERS);
         keywordAll.put("provider" + operator, SMS_PLUS_PROVIDERS);
@@ -250,20 +274,55 @@ public class SMSAnalyticController extends AbstractProtectedController {
     List<ESSmsCdrFilter> dataList = new ArrayList<ESSmsCdrFilter>();
     // Count
     int count = 0;
-
+    //Get count for filter types
+    Map<String , Integer> dataCount = new LinkedMap();
+    
     // Facet size to view
     int facetSize = 20;
 
+    List<ESSmsCdrFilter> sortedDataList = new ArrayList<ESSmsCdrFilter>();
     if (elasticSearchService.checkIndex(ESSmsCdrFilter.class)) {
       count = elasticSearchService.count(fields, terms, keywords, facetSize, ESSmsCdrFilter.class);
       termLists = elasticSearchService.getFacets(fields, terms, keywords, facetSize, ESSmsCdrFilter.class);
       termAllLists = elasticSearchService.getFacets(fields, null, keywordAll, facetSize, ESSmsCdrFilter.class);
 
-      dataList = elasticSearchService.search(fields, terms, keywords, sorts, 0/* page */, count/* limit */, facetSize,
-          ESSmsCdrFilter.class);
+      //Get top data with filter type
+      Map<String , List<FilteringSMS>> topDataMap = new LinkedMap();
+      List<String> typesForFilter = new ArrayList<String>();
+      
+      if(!filter_type.equalsIgnoreCase("") && Arrays.asList(FilterType.ALL_FILTER_TYPES).contains(filter_type)){
+        typesForFilter.add(filter_type);
+      }
+      else
+        typesForFilter.addAll(Arrays.asList(FilterType.ALL_FILTER_TYPES));
+      
+      for(String type : typesForFilter){
+        keywords.put("filterType_operator_term", Arrays.asList(new String[]{type}));
+        dataList = elasticSearchService.search(fields, terms, keywords, sorts, 0/* page */, count/* limit */, facetSize,
+            ESSmsCdrFilter.class);
+        
+        //Count
+        int filterTypeDataSize = dataList==null?0:dataList.size();
+        List<List<Term>> filterFacets = new ArrayList<List<Term>>();
+        filterFacets = elasticSearchService.getFacets(fields, terms, keywords, 
+            filterTypeDataSize, ESSmsCdrFilter.class);
+        filterTypeCount(filterTypeDataSize, filterFacets, type, tabFilter, dataCount);
+        
+        if(type.equalsIgnoreCase(FilterType.OVER_03_MESSAGES_LIMIT_PER_05_MINUTES) || typesForFilter.size() == 1)
+          handleTopDataWithFilterType(model, tabFilter, type, 
+              keywords, fields, terms, facetSize, dataList, 
+              sortedDataList, topDataMap, dataHistogramMap);
+        else
+          handleTopDataWithFilterType(model, tabFilter, type, 
+              keywords, fields, terms, facetSize, dataList, 
+              null, topDataMap, null);
+        
+        //System.out.println("sortedDataList: " + (sortedDataList == null ? 0 : sortedDataList.size()));
+      }
+      //show
+      model.put("topDataMap", topDataMap);
     }
-
-    System.out.println(dataList.size());
+    //System.out.println("dataList.size(): " + dataList.size());
     // Get provider
     List<String> providers = new ArrayList<String>();
     List<Term> termProviders = null;
@@ -285,69 +344,6 @@ public class SMSAnalyticController extends AbstractProtectedController {
      */
     model.put("merchantList", merchants);
 
-    int limit = 20;
-    int msisdnLimit = 3;
-
-    String fieldHistogram = "request_time";
-    String fieldFilter = "msisdn";
-    String operator = "_operator_term";
-
-    List<ESSmsCdrFilter> sortedDataList = new ArrayList<ESSmsCdrFilter>();
-
-    if (tab.equalsIgnoreCase("") || tab.equalsIgnoreCase("subscriber") || !tab.equalsIgnoreCase("merchant")) {
-      sortedDataList = handleSortWithSubscriberByCount(dataList, limit);
-
-      List<FilteringSMS> topMsisdns = new ArrayList<FilteringSMS>();
-      topMsisdns = getTopMsisdn(sortedDataList, limit);
-      
-      model.put("topData", topMsisdns);
-      model.put("pagesize1", limit);
-      model.put("total1", topMsisdns == null ? 0 : topMsisdns.size());
-      
-      // get histogram
-      if (topMsisdns != null && topMsisdns.size() > 0) {
-        for (FilteringSMS data : topMsisdns) {
-          // limit
-          if (dataHistogramMap != null && dataHistogramMap.size() >= limit)
-            break;
-
-          keywords.put(fieldFilter + operator, Arrays.asList(new String[] { data.getMsisdn() }));
-          keywords.put("merchant" + operator, Arrays.asList(new String[] { data.getMerchant().toLowerCase() }));
-
-          List<IntervalUnit> intervalUnits = elasticSearchService.getHistogramFacet(fieldHistogram, fields, terms,
-              keywords, facetSize, ESSmsCdrFilter.class);
-            // find msisdn suspect
-            dataHistogramMap.put(data.getMsisdn() + "::" +data.getMerchant(), intervalUnits);
-        }
-      }
-
-    } else {
-      sortedDataList = handleSortWithMerchantByCount(dataList, limit);
-
-      List<FilteringSMS> topMerchant = new ArrayList<FilteringSMS>();
-      topMerchant = getTopMerchant(sortedDataList, limit);
-      
-      model.put("topData", topMerchant);
-      model.put("pagesize1", limit);
-      model.put("total1", topMerchant == null ? 0 : topMerchant.size());
-      
-      // get histogram
-      if (topMerchant != null && topMerchant.size() > 0) {
-        for (FilteringSMS data : topMerchant) {
-          // limit
-          if (dataHistogramMap != null && dataHistogramMap.size() >= limit)
-            break;
-
-          keywords.put("merchant" + operator, Arrays.asList(new String[] { data.getMerchant().toLowerCase() }));
-
-          List<IntervalUnit> intervalUnits = elasticSearchService.getHistogramFacet(fieldHistogram, fields, terms,
-              keywords, facetSize, ESSmsCdrFilter.class);
-            // find merchant suspect
-            dataHistogramMap.put(data.getMerchant(), intervalUnits);
-        }
-      }
-    }
-
     // Term for histogram
     /*
      * List<Term> termForHistograms = null; if(termLists.size() > 4)
@@ -367,6 +363,9 @@ public class SMSAnalyticController extends AbstractProtectedController {
     model.put("facetsMap", facetsMap);
     model.put("dataHistogramMap", dataHistogramMap);
 
+    // Display count
+    model.put("dataCount", dataCount);
+    
     model.put("pagesize", Integer.valueOf(this.limit));
     model.put("offset", Integer.valueOf(offset));
     model.put("list", sortedDataList);
@@ -378,6 +377,101 @@ public class SMSAnalyticController extends AbstractProtectedController {
 
     model.put("timeHandleTotal", timeHandleTotal);
     return new ModelAndView(getWebView(), "model", model);
+  }
+
+  private void filterTypeCount(int filterTypeDataSize, List<List<Term>> filterFacets, String type,
+      int tabFilter, Map<String, Integer> dataCount) {
+    
+    int count = filterTypeDataSize;
+    List<Term> fieldFacets = null;
+    // Msisdn Facets
+    if(tabFilter == SUBCRIBER_TAB){
+      if(filterFacets != null && filterFacets.size() > 0)
+        fieldFacets = filterFacets.get(0);
+    }
+    // Merchant Facets
+    else{
+      if(filterFacets != null && filterFacets.size() > 1)
+        fieldFacets = filterFacets.get(1);
+    }
+    
+    if(fieldFacets != null && fieldFacets.size() > 0){
+      for(Term term : fieldFacets){
+        count = count - (term.getCount()-1);
+      }
+    }
+    dataCount.put(type, count);
+  }
+
+  @SuppressWarnings("unchecked")
+  private void handleTopDataWithFilterType(ModelMap model, int tabFilter, String type, 
+      Map<String, List<String>> keywords, List<String> fields, List<String> terms, int facetSize, List<ESSmsCdrFilter> dataList,
+      List<ESSmsCdrFilter> sortedDataList, Map<String , List<FilteringSMS>> topDataMap, 
+      Map<String, List<IntervalUnit>> dataHistogramMap) {
+    
+    Map<String, List<String>> filterOptions = new LinkedMap();
+    if(keywords != null)
+      filterOptions.putAll(keywords);
+    
+    List<ESSmsCdrFilter> sortedDataTempList = new ArrayList<ESSmsCdrFilter>();
+    
+    int limit = 20;
+    
+    String fieldHistogram = "request_time";
+    String fieldFilter = "msisdn";
+    String operator = "_operator_term";
+    
+    if (tabFilter == SUBCRIBER_TAB) {
+      sortedDataTempList = handleSortWithSubscriberByCount(dataList, limit);
+
+      List<FilteringSMS> topMsisdns = new ArrayList<FilteringSMS>();
+      topMsisdns = getTopMsisdn(sortedDataTempList, limit);
+      
+      topDataMap.put(type, topMsisdns);
+      
+      // get histogram
+      if (dataHistogramMap != null && topMsisdns != null && topMsisdns.size() > 0) {
+        for (FilteringSMS data : topMsisdns) {
+          // limit
+          if (dataHistogramMap != null && dataHistogramMap.size() >= limit)
+            break;
+
+          filterOptions.put(fieldFilter + operator, Arrays.asList(new String[] { data.getMsisdn() }));
+          filterOptions.put("merchant" + operator, Arrays.asList(new String[] { data.getMerchant().toLowerCase() }));
+
+          // find msisdn suspect
+          dataHistogramMap.put(data.getMsisdn() + "::" +data.getMerchant(), elasticSearchService.getHistogramFacets(fieldHistogram, fields, terms,
+              filterOptions, facetSize, ESSmsCdrFilter.class));
+        }
+      }
+
+    } else {
+      sortedDataTempList = handleSortWithMerchantByCount(dataList, limit);
+
+      List<FilteringSMS> topMerchant = new ArrayList<FilteringSMS>();
+      topMerchant = getTopMerchant(sortedDataTempList, limit);
+      
+      topDataMap.put(type, topMerchant);
+      
+      // get histogram
+      if (dataHistogramMap != null && topMerchant != null && topMerchant.size() > 0) {
+        for (FilteringSMS data : topMerchant) {
+          // limit
+          if (dataHistogramMap != null && dataHistogramMap.size() >= limit)
+            break;
+
+          filterOptions.put("merchant" + operator, Arrays.asList(new String[] { data.getMerchant().toLowerCase() }));
+
+          // find merchant suspect
+          dataHistogramMap.put(data.getMerchant(), elasticSearchService.getHistogramFacets(fieldHistogram, fields, terms,
+              filterOptions, facetSize, ESSmsCdrFilter.class));
+        }
+      }
+    }
+    
+    if(sortedDataTempList != null && sortedDataList != null)
+      sortedDataList.addAll(sortedDataTempList);
+    
   }
 
   class IntervalUnitComp implements Comparator<IntervalUnit>{
@@ -396,10 +490,6 @@ public class SMSAnalyticController extends AbstractProtectedController {
 
     List<FilteringSMS> topMsisdn = new ArrayList<FilteringSMS>();
     for (ESSmsCdrFilter mo : sortedDataList) {
-      // limit
-      if (limit >= 0 && limit <= topMsisdn.size())
-        break;
-
       int index = -1;
       for (int i = 0; i < topMsisdn.size(); i++) {
         if (topMsisdn.get(i).getMerchant().equalsIgnoreCase(mo.getMerchant())
@@ -412,9 +502,12 @@ public class SMSAnalyticController extends AbstractProtectedController {
       if (index != -1) {
         topMsisdn.get(index).setAmount(topMsisdn.get(index).getAmount() + mo.getAmount());
         topMsisdn.get(index).setCount_sms(topMsisdn.get(index).getCount_sms() + 1);
-      } else
+      } else{
+        // limit
+        if (limit >= 0 && limit <= topMsisdn.size())
+          break;
         topMsisdn.add(new FilteringSMS(mo.getMsisdn(), mo.getMerchant(), mo.getProvider(), 1, 1, mo.getAmount()));
-
+      }
     }
 
     return topMsisdn;
@@ -428,10 +521,6 @@ public class SMSAnalyticController extends AbstractProtectedController {
     List<String> msisdns = new ArrayList<String>();
 
     for (ESSmsCdrFilter mo : sortedDataList) {
-      // limit
-      if (limit >= 0 && limit <= topMerchant.size())
-        break;
-
       int index = -1;
       for (int i = 0; i < topMerchant.size(); i++) {
         if (topMerchant.get(i).getMerchant().equalsIgnoreCase(mo.getMerchant())) {
@@ -450,6 +539,10 @@ public class SMSAnalyticController extends AbstractProtectedController {
         topMerchant.get(index).setCount_sms(topMerchant.get(index).getCount_sms() + 1);
         topMerchant.get(index).setCount_msisdn(msisdns.size());
       } else {
+        // limit
+        if (limit >= 0 && limit <= topMerchant.size())
+          break;
+        
         // System.out.println("merchant " + mo.getMerchant() + " ");
         topMerchant.add(new FilteringSMS("", mo.getMerchant(), mo.getProvider(), 1, 1, mo.getAmount()));
 
@@ -560,7 +653,7 @@ public class SMSAnalyticController extends AbstractProtectedController {
     for (String merchant : listSum.keySet()) {
       if (limit >= 0 && i++ >= limit)
         break;
-      System.out.println(merchant + " " + listSum.get(merchant));
+      //System.out.println(merchant + " " + listSum.get(merchant));
       for (ESSmsCdrFilter mo : dataList) {
         if (mo.getMerchant().equalsIgnoreCase(merchant)) {
           results.add(mo);
@@ -588,7 +681,7 @@ public class SMSAnalyticController extends AbstractProtectedController {
     // result
     List<ESSmsCdrFilter> results = new ArrayList<ESSmsCdrFilter>();
     for (String merchant : listSum.keySet()) {
-      System.out.println(merchant + " " + listSum.get(merchant));
+      //System.out.println(merchant + " " + listSum.get(merchant));
       for (ESSmsCdrFilter mo : dataList) {
         if (mo.getMerchant().equalsIgnoreCase(merchant)) {
           results.add(mo);
@@ -664,5 +757,9 @@ public class SMSAnalyticController extends AbstractProtectedController {
       }
     }
 
+  }
+  
+  public void generateLineCoordinates(long interval, Date fromDate, Date toDate, Map<String, List<IntervalUnit>> dataHistogramMap){
+    
   }
 }

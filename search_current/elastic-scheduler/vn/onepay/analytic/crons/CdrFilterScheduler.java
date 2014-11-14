@@ -19,12 +19,13 @@ import vn.onepay.analytic.dao.CdrFilterDAO;
 import vn.onepay.analytic.model.MsisdnStatistic;
 import vn.onepay.cache.dynacache.PassiveDynaCache;
 import vn.onepay.cache.dynacache.common.CacheConstants;
+import vn.onepay.charging.iac.model.IacCdr;
+import vn.onepay.charging.sms.model.SmsCdr;
 import vn.onepay.common.SharedConstants;
-import vn.onepay.iac.model.IacCdr;
 import vn.onepay.search.entities.ESSmsCdrFilter;
+import vn.onepay.search.entities.FilterType;
 import vn.onepay.search.service.ElasticSearchService;
 import vn.onepay.sms.SMSBrandName;
-import vn.onepay.sms.model.SmsCdr;
 import vn.onepay.utils.Utils;
 
 public class CdrFilterScheduler {
@@ -87,47 +88,86 @@ public class CdrFilterScheduler {
 		}
 	}
 
-	public static boolean	blnFilterProcessing	= false;
-	public synchronized void scan() {
-		if (blnFilterProcessing)
-			return;
-		blnFilterProcessing = true;
-		
-		Calendar calendar = Calendar.getInstance();
-		final Date toTime = calendar.getTime();
-		calendar.add(Calendar.MINUTE, -5);
-		final Date fromTime = calendar.getTime();
-		try{
-			final int count = 3;
-			final double amount = 3000;
-			for (String chargingService : CHARGING_SERVICES) {
-				String mapKey = dtFormat.format(toTime) + "_" + chargingService;
-				Map<String, Set<String>> mapProviderMsisdn = (Map<String, Set<String>>) passiveDynaCache.getCachedItem(mapKey);
-				if(mapProviderMsisdn==null)
-					mapProviderMsisdn = new HashMap<String, Set<String>>();
-				List<MsisdnStatistic> msisdnStatistics = cdrFilterDAO.mapReduce(SharedConstants.SMS_CHARGING_SERVICE_CODE.equalsIgnoreCase(chargingService) ? SmsCdr.class : IacCdr.class, fromTime,
-						toTime, count, amount);
-				if (msisdnStatistics != null && msisdnStatistics.size() > 0) {
-					for (MsisdnStatistic statistic : msisdnStatistics) {
-						Set<String> dsMsisdn = mapProviderMsisdn.containsKey(statistic.getProvider()) ? mapProviderMsisdn.get(statistic.getProvider())
-								: new HashSet<String>();
-						dsMsisdn.add(statistic.getMsisdn());
-						mapProviderMsisdn.put(statistic.getProvider(), dsMsisdn);
-						//------------
-						warningMerchants.add(statistic.getMerchant());
-					}
+	private synchronized void scan(final String chargingService, final int count, final double amount, final Date fromTime, final Date toTime, final String filterType) {
+		try {
+			String mapKey = dtFormat.format(toTime) + "_" + chargingService + "_" + filterType;
+			Map<String, Set<String>> mapProviderMsisdn = (Map<String, Set<String>>) passiveDynaCache.getCachedItem(mapKey);
+			if (mapProviderMsisdn == null)
+				mapProviderMsisdn = new HashMap<String, Set<String>>();
+			List<MsisdnStatistic> msisdnStatistics = cdrFilterDAO.mapReduce(
+					SharedConstants.SMS_CHARGING_SERVICE_CODE.equalsIgnoreCase(chargingService) ? SmsCdr.class : IacCdr.class, fromTime, toTime, count, amount);
+			if (msisdnStatistics != null && msisdnStatistics.size() > 0) {
+				for (MsisdnStatistic statistic : msisdnStatistics) {
+					Set<String> dsMsisdn = mapProviderMsisdn.containsKey(statistic.getProvider()) ? mapProviderMsisdn.get(statistic.getProvider())
+							: new HashSet<String>();
+					dsMsisdn.add(statistic.getMsisdn());
+					mapProviderMsisdn.put(statistic.getProvider(), dsMsisdn);
+					// ------------
+					warningMerchants.add(statistic.getMerchant());
 				}
-				passiveDynaCache.setCachedItem(mapKey, mapProviderMsisdn, CacheConstants.MEMCACHED_TIMEOUT_24_HOURS);
 			}
-			//------------
-		}catch(Exception e){
+			passiveDynaCache.setCachedItem(mapKey, mapProviderMsisdn, CacheConstants.MEMCACHED_TIMEOUT_24_HOURS);
+			// ------------
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
-		blnFilterProcessing = false;
 	}
-	public static boolean	blnProcessing	= false;
+	
+	public synchronized void scan() {
+		Calendar calendar = Calendar.getInstance();
+		final Date toTime = calendar.getTime();
+		Date fromTime = calendar.getTime();
+		int count =3;
+		double amount = 1000d;
+		for (String chargingService : CHARGING_SERVICES) {
+			calendar.setTime(toTime);
+			calendar.add(Calendar.MINUTE, -5);
+			fromTime = calendar.getTime();
+			
+			count =3;
+			amount =1000;
+			scan(chargingService, count, amount, fromTime, toTime, FilterType.OVER_03_MESSAGES_LIMIT_PER_05_MINUTES);
+			//--------------
+			
+			calendar.setTime(toTime);
+			calendar.add(Calendar.MINUTE, -10);
+			fromTime = calendar.getTime();
+			
+			count = 5;
+			amount = 1000;
+			scan(chargingService, count, amount, fromTime, toTime, FilterType.OVER_05_MESSAGES_LIMIT_PER_10_MINUTES);
+			//--------------
+			
+			calendar.setTime(toTime);
+			calendar.add(Calendar.MINUTE, -60);
+			fromTime = calendar.getTime();
+			
+			count = 30;
+			amount = 1000;
+			scan(chargingService, count, amount, fromTime, toTime, FilterType.OVER_30_MESSAGES_LIMIT_PER_60_MINUTES);
+			//--------------
+		}
+	}
+	
 	public synchronized void run() {
+		Calendar calendar = Calendar.getInstance();
+		final Date toTime = calendar.getTime();
+		Date fromTime = calendar.getTime();
+		int count =3;
+		double amount = 1000d;
+		for (String chargingService : CHARGING_SERVICES) {
+			fromTime = Utils.getStartOfDay(toTime);
+
+			count = 3;
+			amount = SharedConstants.SMS_CHARGING_SERVICE_CODE.equalsIgnoreCase(chargingService) ? 150000d:500000d;
+			scan(chargingService, count, amount, fromTime, toTime, FilterType.OVER_AMOUNT_LIMIT_PER_DAY);
+			//------
+		}
+	}
+	
+	
+	public static boolean	blnProcessing	= false;
+	public synchronized void push() {
 		if (blnProcessing)
 			return;
 		blnProcessing = true;
@@ -141,36 +181,40 @@ public class CdrFilterScheduler {
 		
 		try{
 			for (String chargingService : CHARGING_SERVICES) {
-				String mapKey = dtFormat.format(toTime) + "_" + chargingService;
-				Map<String, Set<String>> mapProviderMsisdn = (Map<String, Set<String>>) passiveDynaCache.getCachedItem(mapKey);
-				if (mapProviderMsisdn != null && mapProviderMsisdn.size() > 0) {
-					for (String provider : mapProviderMsisdn.keySet()) {
-						Set<String> dsMsisdn = mapProviderMsisdn.get(provider);
-						List<ESSmsCdrFilter> esSmsCdrFilters = cdrFilterDAO.findESSmsCdrFilters(chargingService, provider, new ArrayList<String>(dsMsisdn),
-								fromTime, toTime, offset, limit);
-						if (esSmsCdrFilters != null && esSmsCdrFilters.size() > 0) {
-							for (ESSmsCdrFilter esSmsCdrFilter : esSmsCdrFilters) {
-								if(passiveDynaCache.containsKey(esSmsCdrFilter.getId()))
-									continue;
-								try {
-									if (elasticSearchService.checkIndex(ESSmsCdrFilter.class)) {
-										if (!elasticSearchService.exist(esSmsCdrFilter.getId(), ESSmsCdrFilter.class)) {
-											if (StringUtils.isNotEmpty(elasticSearchService.index(esSmsCdrFilter.getId(), esSmsCdrFilter))){
-												if("mw_9029".equalsIgnoreCase(esSmsCdrFilter.getProvider()))
-													logger.info("FUCK|"+esSmsCdrFilter.getProvider() +"|" + esSmsCdrFilter.getMerchant() + "|" +esSmsCdrFilter.getMsisdn()+"|"+esSmsCdrFilter.getShort_code()+"|"+esSmsCdrFilter.getCommand_code());
-												logger.info("indexed");
+				for(String filterType: FilterType.ALL_FILTER_TYPES){
+					String mapKey = dtFormat.format(toTime) + "_" + chargingService + "_" + filterType;
+					Map<String, Set<String>> mapProviderMsisdn = (Map<String, Set<String>>) passiveDynaCache.getCachedItem(mapKey);
+					if (mapProviderMsisdn != null && mapProviderMsisdn.size() > 0) {
+						for (String provider : mapProviderMsisdn.keySet()) {
+							Set<String> dsMsisdn = mapProviderMsisdn.get(provider);
+							List<ESSmsCdrFilter> esSmsCdrFilters = cdrFilterDAO.findESSmsCdrFilters(chargingService, provider, new ArrayList<String>(dsMsisdn),
+									fromTime, toTime, offset, limit);
+							if (esSmsCdrFilters != null && esSmsCdrFilters.size() > 0) {
+								for (ESSmsCdrFilter esSmsCdrFilter : esSmsCdrFilters) {
+									if(passiveDynaCache.containsKey(filterType + "_"+ esSmsCdrFilter.getId()))
+										continue;
+									try {
+										esSmsCdrFilter.setFilterType(filterType);
+										if (elasticSearchService.checkIndex(ESSmsCdrFilter.class)) {
+											if (!elasticSearchService.exist(esSmsCdrFilter.getId(), ESSmsCdrFilter.class)) {
+												if (StringUtils.isNotEmpty(elasticSearchService.index(esSmsCdrFilter.getId(), esSmsCdrFilter))){
+													if("mw_9029".equalsIgnoreCase(esSmsCdrFilter.getProvider()))
+														logger.info("FUCK|"+esSmsCdrFilter.getProvider() +"|" + esSmsCdrFilter.getMerchant() + "|" +esSmsCdrFilter.getMsisdn()+"|"+esSmsCdrFilter.getShort_code()+"|"+esSmsCdrFilter.getCommand_code());
+													logger.info("indexed");
+												}
+											} else {
+												elasticSearchService.reindex(esSmsCdrFilter.getId(), esSmsCdrFilter, ESSmsCdrFilter.class);
+												logger.info("existed");
 											}
+											passiveDynaCache.setCachedItem(filterType + "_"+ esSmsCdrFilter.getId(), esSmsCdrFilter.getId() , CacheConstants.MEMCACHED_TIMEOUT_24_HOURS);
 										} else {
-											logger.info("existed");
+											elasticSearchService.createIndex(ESSmsCdrFilter.class);
 										}
-										passiveDynaCache.setCachedItem(esSmsCdrFilter.getId(), esSmsCdrFilter.getId() , CacheConstants.MEMCACHED_TIMEOUT_24_HOURS);
-									} else {
-										elasticSearchService.createIndex(ESSmsCdrFilter.class);
+									} catch (Exception e) {
+										e.printStackTrace();
 									}
-								} catch (Exception e) {
-									e.printStackTrace();
+									try{TimeUnit.MILLISECONDS.sleep(200);}catch(InterruptedException ie){}
 								}
-								try{TimeUnit.MILLISECONDS.sleep(200);}catch(InterruptedException ie){}
 							}
 						}
 					}

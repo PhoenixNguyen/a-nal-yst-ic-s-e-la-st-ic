@@ -334,7 +334,7 @@ $(function(){
 							<c:choose>
 								<c:when test="${model.total > 0}">
 									<span class="pagebanner"> Tổng cộng có ${model.total} kết quả tìm thấy. 
-										&nbsp(Thời gian tìm kiếm ${model.timeHandleTotal /1000.0} giây). Tra cứu chi tiết <a href="#" style="color: #2c8f39;"><b>tại đây</b></a>
+										&nbsp(Thời gian tìm kiếm ${model.timeHandleTotal /1000.0} giây). Tra cứu chi tiết <a href="tra-cuu.html" style="color: #2c8f39;"><b>tại đây</b></a>
 									</span>
 								</c:when>
 								<c:otherwise>

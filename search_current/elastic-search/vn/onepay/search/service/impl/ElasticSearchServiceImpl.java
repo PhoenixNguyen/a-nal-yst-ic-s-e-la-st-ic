@@ -14,7 +14,6 @@ import java.util.Set;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.map.LinkedMap;
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang.math.NumberUtils;
 import org.apache.log4j.Logger;
 import org.elasticsearch.index.query.FilterBuilder;
 import org.elasticsearch.index.query.FilterBuilders;
@@ -35,7 +34,6 @@ import org.springframework.data.elasticsearch.core.query.IndexQuery;
 import org.springframework.data.elasticsearch.core.query.IndexQueryBuilder;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
 import org.springframework.data.elasticsearch.core.query.SearchQuery;
-import org.springframework.data.elasticsearch.entities.Article;
 
 import vn.onepay.search.service.ElasticSearchService;
 
@@ -54,6 +52,88 @@ public class ElasticSearchServiceImpl implements ElasticSearchService {
 	}
 
 	@Override
+	public <T> boolean checkIndex(Class<T> clazz) {
+		return elasticsearchTemplate.indexExists(clazz);
+	}
+	
+	@Override
+	public <T> boolean createIndex(Class<T> clazz) {
+		// TODO Auto-generated method stub
+		return elasticsearchTemplate.createIndex(clazz);
+	}
+
+	public <T> boolean deleteIndex(Class<T> clazz) {
+
+		if (elasticsearchTemplate.indexExists(clazz))
+			return elasticsearchTemplate.deleteIndex(clazz);
+		return false;
+	}
+
+	public <T> String remove(Class<T> clazz, String id) {
+
+		if (elasticsearchTemplate.indexExists(clazz))
+			return elasticsearchTemplate.delete(clazz, id);
+		return "";
+	}
+
+	public <T> void bulkIndex(List<String> idList, List<T> objectList) {
+		if (objectList == null)
+			return;
+		List<IndexQuery> indexQuerys = new ArrayList<IndexQuery>();
+
+		int i = 0;
+		for (T value : objectList) {
+			IndexQuery query = new IndexQueryBuilder().withId(idList.get(i)).withObject(value).build();
+			indexQuerys.add(query);
+
+			i++;
+		}
+		elasticsearchTemplate.bulkIndex(indexQuerys);
+	}
+
+	public <T> boolean exist(String id, Class<T> clazz) {
+		if (elasticsearchTemplate.queryForObject(new CriteriaQuery(Criteria.where("id").is(id)), clazz) == null) {
+			return false;
+		} else
+			return true;
+	}
+	
+	@Override
+	public <T> String reindex(String id, T object, Class<T> clazz) {
+		if(exist(id, clazz)){
+		  remove(clazz, id);
+		}
+		return index(id, object);
+	}
+
+	public <T> String index(String id, T object) {
+		if (object == null)
+			return "null value";
+		return elasticsearchTemplate.index(new IndexQueryBuilder().withId(id).withObject(object).build());
+	}
+
+	public <T> int count(List<String> fields, List<String> terms, Map<String, List<String>> keywords, int facetSize, Class<T> clazz) {
+		return getTotalRecords(queryString("", fields, terms, keywords, null, -1, -1, facetSize, QUERY_FACET), clazz);
+	}
+
+	private <T> int getTotalRecords(SearchQuery searchQuery, Class<T> clazz) {
+		FacetedPage<T> result = elasticsearchTemplate.queryForPage(searchQuery, clazz);
+		return (int) result.getTotalElements();
+	}
+
+	public <T> long count(SearchQuery query, Class<T> clazz) {
+		long count = elasticsearchTemplate.count(query, clazz);
+		// logger.info("COUNT Query = " + count);
+		return count;
+	}
+
+	private <T> int countAllData(Class<T> clazz) {
+		NativeSearchQueryBuilder queryBuilder = new NativeSearchQueryBuilder().withQuery(matchAllQuery());
+
+		return (int) elasticsearchTemplate.count(queryBuilder.build(), clazz);
+	}
+
+	@Override
 	public <T> List<List<Term>> getFacets(List<String> fields, List<String> terms, Map<String, List<String>> keywords, int facetSize, Class<T> clazz) {
 
 		List<List<Term>> termLists = new ArrayList<List<Term>>();
@@ -68,7 +148,8 @@ public class ElasticSearchServiceImpl implements ElasticSearchService {
 				termLists.add(i, getFacets(f, fields, terms, keywords, countAll, clazz));
 			} else {
 				if (!terms.get(i).equals("")) {
-					termLists.add(i, Arrays.asList(new Term(terms.get(i), getTotalRecords(queryString("", fields, terms, keywords, null, -1, -1, facetSize, QUERY_FACET),  clazz))));
+					termLists.add(i, Arrays.asList(new Term(terms.get(i), getTotalRecords(
+							queryString("", fields, terms, keywords, null, -1, -1, facetSize, QUERY_FACET), clazz))));
 				} else {
 					List<String> termTemps = new ArrayList<String>();
 					termTemps.addAll(terms);
@@ -78,7 +159,6 @@ public class ElasticSearchServiceImpl implements ElasticSearchService {
 			}
 			i++;
 		}
-
 		return termLists;
 	}
 
@@ -88,16 +168,14 @@ public class ElasticSearchServiceImpl implements ElasticSearchService {
 				clazz).getFacet(field);
 
 		return facet.getTerms();
-
 	}
 
-	public <T> List<IntervalUnit> getHistogramFacet(String field, List<String> fields, List<String> terms, Map<String, List<String>> keywords, int facetSize,
+	public <T> List<IntervalUnit> getHistogramFacets(String field, List<String> fields, List<String> terms, Map<String, List<String>> keywords, int facetSize,
 			Class<T> clazz) {
 		HistogramResult facet = (HistogramResult) elasticsearchTemplate.queryForPage(
 				queryString(field, fields, terms, keywords, null, 0, 0, facetSize, QUERY_HISTOGRAM), clazz).getFacet(field);
 		List<IntervalUnit> unitList = facet.getIntervalUnit();
 		return unitList;
-
 	}
 
 	public <T> List<T> search(List<String> fields, List<String> terms, Map<String, List<String>> keywords, Map<String, SortOrder> sorts, int page, int size,
@@ -109,14 +187,7 @@ public class ElasticSearchServiceImpl implements ElasticSearchService {
 		List<T> resultList = new ArrayList<T>();
 
 		CollectionUtils.addAll(resultList, resultIterable.iterator());
-
 		return resultList;
-
-	}
-
-	public <T> int count(List<String> fields, List<String> terms, Map<String, List<String>> keywords, int facetSize, Class<T> clazz) {
-	  return getTotalRecords(queryString("", fields, terms, keywords, null, -1, -1, facetSize, QUERY_FACET),  clazz);
-	  
 	}
 
 	private SearchQuery queryString(String field, List<String> fields, List<String> terms, Map<String, List<String>> keywords, Map<String, SortOrder> sorts,
@@ -125,20 +196,20 @@ public class ElasticSearchServiceImpl implements ElasticSearchService {
 		NativeSearchQueryBuilder queryBuilder = new NativeSearchQueryBuilder().withQuery(matchAllQuery());
 
 		// And
-		List<FilterBuilder> filterBuildersAnd = new ArrayList<FilterBuilder>();
+		List<FilterBuilder> andFilterBuilders = new ArrayList<FilterBuilder>();
 		if (terms != null && terms.size() > 0) {
 			int i = 0;
 			for (String f : fields) {
 				if (StringUtils.isNotBlank(terms.get(i))) {
-					filterBuildersAnd.add(FilterBuilders.termFilter(f, terms.get(i)));
+				  andFilterBuilders.add(FilterBuilders.termFilter(f, terms.get(i)));
 				}
 				i++;
 			}
 		}
 		// Regex
-		List<FilterBuilder> filterBuildersRegex = new ArrayList<FilterBuilder>();
+		List<FilterBuilder> regexFilterBuilders = new ArrayList<FilterBuilder>();
 		// Term
-		List<FilterBuilder> filterBuilderTerm = new ArrayList<FilterBuilder>();
+		List<FilterBuilder> termFilterBuilders = new ArrayList<FilterBuilder>();
 		// In
 		@SuppressWarnings("unchecked")
 		Map<String, List<String>> inMap = new LinkedMap();
@@ -163,9 +234,9 @@ public class ElasticSearchServiceImpl implements ElasticSearchService {
 
 					if (values != null && values.size() > 0) {
 						if (operator.equals("regex"))
-							filterBuildersRegex.add(FilterBuilders.regexpFilter(keyField, ".*" + values.get(0) + ".*"));
+						  regexFilterBuilders.add(FilterBuilders.regexpFilter(keyField, ".*" + values.get(0) + ".*"));
 						else if (operator.equals("term")) {
-							filterBuilderTerm.add(FilterBuilders.termFilter(keyField, values.get(0)));
+						  termFilterBuilders.add(FilterBuilders.termFilter(keyField, values.get(0)));
 						} else if (operator.equals("in")) {
 							inMap.put(keyField, values);
 						} else if (operator.equals("not_in")) {
@@ -179,18 +250,16 @@ public class ElasticSearchServiceImpl implements ElasticSearchService {
 
 		// In
 		if (inMap != null && inMap.size() > 0) {
-			List<FilterBuilder> filterBuildersIn = new ArrayList<FilterBuilder>();
 			for (String key : inMap.keySet()) {
 				// logger.info(key + " " + inMap.get(key));
-				filterBuildersIn.add(FilterBuilders.inFilter(key, inMap.get(key)));
+			  andFilterBuilders.add(FilterBuilders.inFilter(key, inMap.get(key)));
 			}
-			filterBuildersAnd.addAll(filterBuildersIn);
 		}
 
 		// NOT IN
 		if (notInMap != null && notInMap.size() > 0) {
 			for (String key : notInMap.keySet()) {
-				filterBuildersAnd.add(FilterBuilders.notFilter(FilterBuilders.inFilter(key, notInMap.get(key))));
+			  andFilterBuilders.add(FilterBuilders.notFilter(FilterBuilders.inFilter(key, notInMap.get(key))));
 			}
 		}
 
@@ -200,35 +269,39 @@ public class ElasticSearchServiceImpl implements ElasticSearchService {
 			for (String key : timeRangeMap.keySet()) {
 				// logger.info("Time Range: size = " + timeRangeMap.size() + " "
 				// + key + " " + timeRangeMap.get(key));
-			  
-			  List<String> timeRangeList = timeRangeMap.get(key);
-			  if(timeRangeList == null || timeRangeList.size() <= 0)
-			    continue;
-			  
-			  List<FilterBuilder> filterBuildersTimeRangeOr = new ArrayList<FilterBuilder>();
+
+				List<String> timeRangeList = timeRangeMap.get(key);
+				if (timeRangeList == null || timeRangeList.size() <= 0)
+					continue;
+
+				List<FilterBuilder> timeRangeOrFilterBuilders = new ArrayList<FilterBuilder>();
 				try {
-				  for(int i = 0; i < timeRangeList.size(); i+=2){
-  					String from = timeRangeMap.get(key).get(i);
-  					String to = timeRangeMap.get(key).get(i+1);
-  
-  					Date fromDate = null;
-  					Date toDate = null;
-  
-  					if (!from.equals(""))
-  						fromDate = df.parse(from);
-  					if (!to.equals("")) {
-  						toDate = df.parse(to);
-  
-  					}
-  					if (fromDate != null && toDate != null)
-  					  filterBuildersTimeRangeOr.add(FilterBuilders.rangeFilter(key).from(fromDate.getTime()).to(toDate.getTime()));
-  					
-  					
-				  }
-				  // Add
-				  if(filterBuildersTimeRangeOr != null && filterBuildersTimeRangeOr.size() > 0)
-				    filterBuildersAnd.add(FilterBuilders.orFilter(filterBuildersTimeRangeOr.toArray(new FilterBuilder[filterBuildersTimeRangeOr.size()])));
-				  
+					for (int i = 0; i < timeRangeList.size(); i += 2) {
+						String from = timeRangeMap.get(key).get(i);
+						String to = timeRangeMap.get(key).get(i + 1);
+
+						Date fromDate = null;
+						Date toDate = null;
+
+						if (!from.equals(""))
+							fromDate = df.parse(from);
+						if (!to.equals("")) {
+							toDate = df.parse(to);
+
+						}
+						if (fromDate != null && toDate != null)
+						  timeRangeOrFilterBuilders.add(FilterBuilders.rangeFilter(key).from(fromDate.getTime()).to(toDate.getTime()));
+						else
+						  if (fromDate != null && toDate == null)
+	              timeRangeOrFilterBuilders.add(FilterBuilders.rangeFilter(key).from(fromDate.getTime()));
+						  else
+	              if (fromDate == null && toDate != null)
+	                timeRangeOrFilterBuilders.add(FilterBuilders.rangeFilter(key).to(toDate.getTime()));
+					}
+					// Add
+					if (timeRangeOrFilterBuilders != null && timeRangeOrFilterBuilders.size() > 0)
+					  andFilterBuilders.add(FilterBuilders.orFilter(timeRangeOrFilterBuilders.toArray(new FilterBuilder[timeRangeOrFilterBuilders.size()])));
+
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -236,19 +309,19 @@ public class ElasticSearchServiceImpl implements ElasticSearchService {
 			}
 		}
 
-		// or with regexs
-		if (filterBuildersRegex != null && filterBuildersRegex.size() > 0)
-			filterBuildersAnd.add(FilterBuilders.orFilter(filterBuildersRegex.toArray(new FilterBuilder[filterBuildersRegex.size()])));
+		// Or with regexs
+		if (regexFilterBuilders != null && regexFilterBuilders.size() > 0)
+		  andFilterBuilders.add(FilterBuilders.orFilter(regexFilterBuilders.toArray(new FilterBuilder[regexFilterBuilders.size()])));
 
-		// and term exact
-		if (filterBuilderTerm != null && filterBuilderTerm.size() > 0)
-			filterBuildersAnd.add(FilterBuilders.andFilter(filterBuilderTerm.toArray(new FilterBuilder[filterBuilderTerm.size()])));
+		// And term exact
+		if (termFilterBuilders != null && termFilterBuilders.size() > 0)
+		  andFilterBuilders.add(FilterBuilders.andFilter(termFilterBuilders.toArray(new FilterBuilder[termFilterBuilders.size()])));
 
 		// And all
-		queryBuilder.withFilter(FilterBuilders.andFilter(filterBuildersAnd.toArray(new FilterBuilder[filterBuildersAnd.size()])));
+		queryBuilder.withFilter(FilterBuilders.andFilter(andFilterBuilders.toArray(new FilterBuilder[andFilterBuilders.size()])));
 
 		// Sorts
-		if (sorts != null)
+		if (sorts != null && sorts.size() > 0)
 			for (String fie : sorts.keySet()) {
 				queryBuilder.withSort(new FieldSortBuilder(fie).ignoreUnmapped(true).order(sorts.get(fie)));
 			}
@@ -269,78 +342,4 @@ public class ElasticSearchServiceImpl implements ElasticSearchService {
 		return queryBuilder.build();
 	}
 
-	@Override
-	public <T> boolean createIndex(Class<T> clazz) {
-		// TODO Auto-generated method stub
-		return elasticsearchTemplate.createIndex(clazz);
-	}
-	
-	@Override
-	public <T> boolean checkIndex(Class<T> clazz) {
-		return elasticsearchTemplate.indexExists(clazz);
-	}
-
-	public <T> boolean deleteIndex(Class<T> clazz) {
-
-		if (elasticsearchTemplate.indexExists(clazz))
-			return elasticsearchTemplate.deleteIndex(clazz);
-		return false;
-	}
-
-	public <T> String remove(Class<T> clazz, String id) {
-
-		if (elasticsearchTemplate.indexExists(clazz))
-			return elasticsearchTemplate.delete(clazz, id);
-		return "";
-	}
-
-	public <T> void bulkIndex(List<String> idList, List<T> objectList) {
-		if (objectList == null)
-			return;
-
-		List<IndexQuery> indexQuerys = new ArrayList<IndexQuery>();
-
-		int i = 0;
-		for (T value : objectList) {
-			IndexQuery query = new IndexQueryBuilder().withId(idList.get(i)).withObject(value).build();
-			indexQuerys.add(query);
-
-			i++;
-		}
-
-		elasticsearchTemplate.bulkIndex(indexQuerys);
-	}
-
-	public <T> boolean exist(String id, Class<T> clazz) {
-		if (elasticsearchTemplate.queryForObject(new CriteriaQuery(Criteria.where("id").is(id)), clazz) == null) {
-			return false;
-		} else
-			return true;
-	}
-
-	public <T> String index(String id, T object) {
-		if (object == null)
-			return "null value";
-
-		return elasticsearchTemplate.index(new IndexQueryBuilder().withId(id).withObject(object).build());
-	}
-
-	private <T> int countAllData(Class<T> clazz) {
-		NativeSearchQueryBuilder queryBuilder = new NativeSearchQueryBuilder().withQuery(matchAllQuery());
-
-		return (int) elasticsearchTemplate.count(queryBuilder.build(), clazz);
-
-	}
-
-	private <T> int getTotalRecords(SearchQuery searchQuery, Class<T> clazz){
-	  FacetedPage<T> result = elasticsearchTemplate.queryForPage(searchQuery, clazz);
-	  return (int)result.getTotalElements();
-	  
-	}
-
-	public <T> long count(SearchQuery query, Class<T> clazz) {
-		long count = elasticsearchTemplate.count(query, clazz);
-		// logger.info("COUNT Query = " + count);
-		return count;
-	}
 }

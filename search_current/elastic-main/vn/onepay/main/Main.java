@@ -14,8 +14,9 @@ import vn.onepay.main.repositories.CardService;
 import vn.onepay.search.entities.ESCardCdr;
 import vn.onepay.search.entities.ESSmsCdr;
 import vn.onepay.search.entities.ESSmsCdrFilter;
+import vn.onepay.search.entities.FilterType;
 import vn.onepay.sms.model.SMS;
-import vn.onepay.sms.model.SmsCdr;
+import vn.onepay.charging.sms.model.SmsCdr;
 import vn.onepay.utils.Utils;
 
 public class Main {
@@ -24,9 +25,9 @@ public class Main {
 		Main main = new Main();
 		
 		//Use Repository
-		//smsChargingIndexRepository();
+		smsChargingIndexRepository();
 		
-		cardChargingIndexRepository();
+		//cardChargingIndexRepository();
 	}
 
 	private static void smsChargingIndexRepository() {
@@ -70,7 +71,6 @@ public class Main {
       if(!elasticsearchTemplate.indexExists(ESSmsCdrFilter.class)){
         System.out.println("Dang danh chi muc ...");
         
-        
         List<ESSmsCdrFilter> objList = new ArrayList<ESSmsCdrFilter>();
         List<String> ids = new ArrayList<String>();
         
@@ -79,7 +79,8 @@ public class Main {
           ids.add(sms.getId());
           objList.add(new ESSmsCdrFilter(sms.getId(), sms.getMerchant(), sms.getApp_code(), sms.getPaymentProvider(), sms.getTelco(), 
               sms.getMsisdn(), sms.getAmount(), sms.getCommandCode(), 
-              sms.getShortCode(), sms.getMoMessage(), sms.getRequestTime()));
+              sms.getShortCode(), sms.getMoMessage(), sms.getRequestTime(),
+              getFilterType()));
           
         }
         
@@ -88,7 +89,8 @@ public class Main {
           ids.add(mo.getId());
           objList.add(new ESSmsCdrFilter(mo.getId(), mo.getCp_code(), mo.getContent_id(), "mw_9029", mo.getTelco(), 
               mo.getMsisdn(), mo.getAmount(), mo.getGame_code(), 
-              "9029", mo.getMo_message(), mo.getRequest_time()));
+              "9029", mo.getMo_message(), mo.getRequest_time(),
+              getFilterType()));
           
         }
         
@@ -115,6 +117,11 @@ public class Main {
         System.out.println("Da ton tai chi muc");
         }
   }
+	
+	private static String getFilterType(){
+	  int indexRandom = new Random().nextInt(FilterType.ALL_FILTER_TYPES.length); 
+	  return FilterType.ALL_FILTER_TYPES[indexRandom];
+	}
 	
 	private static void cardChargingIndexRepository() {
     @SuppressWarnings("resource")

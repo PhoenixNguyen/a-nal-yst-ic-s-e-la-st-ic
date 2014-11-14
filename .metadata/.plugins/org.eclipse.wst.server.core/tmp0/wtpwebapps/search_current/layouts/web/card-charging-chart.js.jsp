@@ -287,7 +287,7 @@
 						area:true,
 						values : lineLimit,
 						key : "Giới hạn lỗi",
-						color : "#FA8072"
+						color : "#99FF99"
 					}];
 				} else{
 					return [ {
@@ -318,7 +318,7 @@
 						area:true,
 						values : lineLimit,
 						key : "Giới hạn lỗi",
-						color : "#FA8072"
+						color : "#99FF99"
 					}
 					];
 				}
@@ -368,7 +368,7 @@
 						area:true,
 						values : lineLimit,
 						key : "Giới hạn lỗi",
-						color : "#FA8072"
+						color : "#99FF99"
 					}];
 				} else{
 					return [ {
@@ -423,7 +423,7 @@
 						area:true,
 						values : lineLimit,
 						key : "Giới hạn lỗi",
-						color : "#FA8072"
+						color : "#99FF99"
 					}
 					];
 				}

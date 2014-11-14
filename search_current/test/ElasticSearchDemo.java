@@ -8,6 +8,8 @@ import java.util.List;
 
 import net.sf.ehcache.search.Query;
 
+import org.elasticsearch.action.index.IndexRequest;
+import org.elasticsearch.action.index.IndexRequestBuilder;
 import org.elasticsearch.index.query.FilterBuilders;
 import org.elasticsearch.index.query.IndexQueryParserService;
 import org.elasticsearch.search.facet.FacetBuilders;
@@ -29,6 +31,8 @@ import org.springframework.data.elasticsearch.core.facet.result.TermResult;
 import org.springframework.data.elasticsearch.core.query.IndexQuery;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
 import org.springframework.data.elasticsearch.core.query.SearchQuery;
+import org.springframework.data.elasticsearch.core.query.UpdateQuery;
+import org.springframework.data.elasticsearch.core.query.UpdateQueryBuilder;
 import org.springframework.data.elasticsearch.entities.Article;
 import org.springframework.data.elasticsearch.entities.ArticleBuilder;
 
@@ -63,7 +67,7 @@ public class ElasticSearchDemo {
 	        IndexQuery article2 = new ArticleBuilder("2").title("article2").addAuthor(RIZWAN_IDREES).addAuthor(ARTUR_KONCZAK).addAuthor(MOHSIN_HUSEN).addPublishedYear(YEAR_2000).addDate(df2.parse(fromStr1)).score(20).buildIndex();
 	        IndexQuery article3 = new ArticleBuilder("3").title("article3").addAuthor(RIZWAN_IDREES).addAuthor(ARTUR_KONCZAK).addPublishedYear(YEAR_2001).addPublishedYear(YEAR_2000).addDate(df2.parse(fromStr2)).score(90).buildIndex();
 	        IndexQuery article4 = new ArticleBuilder("4").title("article4").addAuthor(RIZWAN_IDREES).addPublishedYear(YEAR_2002).addPublishedYear(YEAR_2001).addPublishedYear(YEAR_2000).addDate(df2.parse(fromStr3)).score(40).buildIndex();
-	        IndexQuery article5 = new ArticleBuilder("5").title("article4").addAuthor(RIZWAN_IDREES).addPublishedYear(YEAR_2002).addPublishedYear(YEAR_2001).addPublishedYear(YEAR_2000).addDate(df2.parse(fromStr3)).score(140).buildIndex();
+	        IndexQuery article5 = new ArticleBuilder("5").title("article5").addAuthor(RIZWAN_IDREES).addPublishedYear(YEAR_2002).addPublishedYear(YEAR_2001).addPublishedYear(YEAR_2000).addDate(df2.parse(fromStr3)).score(140).buildIndex();
 
 	        elasticsearchTemplate.index(article1);
 	        elasticsearchTemplate.index(article2);
@@ -138,6 +142,9 @@ public class ElasticSearchDemo {
 			
 			String fromStr = "2014-09-19 16:53:38";
 			
+			//IndexRequest indexRequest = new IndexRequest("").setSource("", "", "", "");
+			
+			elasticsearchTemplate.update(new UpdateQueryBuilder().withIndexName("articles").withType("article").withId("5").withIndexRequest(new IndexRequest("articles", "article")).build());
 			
 			
 			// given
@@ -207,7 +214,7 @@ public class ElasticSearchDemo {
 	        
 	        elasticsearchTemplate.refresh(Article.class, true);
 	        long total = elasticsearchTemplate.count(searchQuery, Article.class);
-	        System.out.println("Total:  " + total + " " + result.getTotalPages());
+	        System.out.println("Total:  " + total + " " + result.getNumberOfElements() + " " + result.getTotalElements());
 	        
 	        
 		}catch(Exception e){

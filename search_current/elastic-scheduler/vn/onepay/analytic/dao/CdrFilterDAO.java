@@ -4,9 +4,9 @@ import java.util.Date;
 import java.util.List;
 
 import vn.onepay.analytic.model.MsisdnStatistic;
-import vn.onepay.iac.model.IacCdr;
+import vn.onepay.charging.iac.model.IacCdr;
+import vn.onepay.charging.sms.model.SmsCdr;
 import vn.onepay.search.entities.ESSmsCdrFilter;
-import vn.onepay.sms.model.SmsCdr;
 
 public interface CdrFilterDAO {
 	String BEAN_NAME ="cdrFilterDAO";
